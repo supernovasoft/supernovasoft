@@ -1,0 +1,32 @@
+* {font-family: 'Raleway', sans-serif;}
+
+ul {list-style-type: none;margin: 0;padding: 0;font-size:13px;}
+ul > li {display: inline-block;}
+ul > li > a {text-decoration: none;color:black;}
+ul > li > a:hover{text-decoration: none; color:#142038;}
+/* body {display: table;width: 100%;height:100vh;}
+body div {display: table-cell;text-align: center;vertical-align: middle;} */
+.services img {width: 40%; margin: 0 auto;padding-bottom: 10px;display: block;opacity: 0.8;}
+div.supernova-menu {background-color: #142038;}
+div.supernova-menu a{text-decoration: none;}
+
+.business-description {font-size: large;}
+.business-description li {padding: 10px 0;}
+
+.contactus img {width: 10%;margin-right: 10px;}
+.copyright { text-align: right; font-size: 13px;}
+.copyright img {width: 30px;}
+
+.amazing-context {
+    position: relative;
+    padding: 0;
+}
+.amazing-text {
+    position: absolute;
+    /* width: 100%; */
+    height: 100%;
+    display: flex;
+    align-items: center; /** Y-axis align **/
+    justify-content: left; /** X-axis align **/
+}
+.amazing-text > * {display: none;}
