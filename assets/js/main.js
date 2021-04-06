@@ -13,4 +13,13 @@
   
     showNextQuote();
   
+    $('#wapp').floatingWhatsApp({
+      phone: '905312089995', 
+      popupMessage: 'Hello, how can we helo you?', 
+      showPopup: true,
+      showOnIE: false,
+      headerTitle: 'Welcome!',
+      message: "I want to Install Website on AWS!",
+      size: '52px',
+    });
   })(jQuery);
