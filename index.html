@@ -3,41 +3,58 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<title>Supernova Soft</title>
-	<link href="https://fonts.googleapis.com/css?family=Raleway:400,700&display=swap" rel="stylesheet"> 
+	<link href="https://fonts.googleapis.com/css?family=Ubuntu:400,700&display=swap" rel="stylesheet"> 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link rel="stylesheet" href="assets/css/custom.css">
 </head>
 <body>
-	<div class="supernova-menu d-flex flex-column flex-md-row align-items-center p-3 px-md-4 bg-white1 border-bottom shadow-sm">
-		<h2 class="my-0 mr-md-auto font-weight-normal text-light">
-			<img src="assets/img/supernovasoft.png" alt="Supernova Soft Logo" width="50"> 
-			<small>Supernova Soft</small>
-		</h2>
-		<nav class="my-2 my-md-0 mr-md-3">
-		  <a class="p-2 text-light" href="#services">Services</a>
-		  <a class="p-2 text-light" href="#contacts">Contact Us</a>
-		</nav>
+	<div class="supernova-menu p-3 px-md-4 bg-white1 border-bottom shadow-sm">
+		<div class="container d-flex flex-column flex-md-row align-items-center">
+			<h2 class="my-0 mr-md-auto font-weight-normal text-light">
+				<img src="assets/img/supernovasoft.png" alt="Supernova Soft Logo" width="50"> 
+				<span style="line-height: 0;">Supernova Soft</span>
+			</h2>
+			<nav class="my-2 my-md-0 mr-md-3">
+			<a class="p-2 text-light" href="https://blog.supernovasoft.com">Blog</a>
+			<a class="p-2 text-light" href="https://tools.supernovasoft.com" target="_blank">Tools</a>
+			<a class="p-2 text-light" href="#contacts">Contact Us</a>
+			</nav>
+		</div>
 	</div>
 	<div class="" style="background-color: #e9ecef;">
-		<div class="row text-dark" style="margin: 0;">
-			<div class="col-sm-6">
-				<img src="assets/img/web-design.png" alt="">
-			</div>
-			<div class="col-sm-6 amazing-context">
-				<div class="amazing-text">
-					<h3>We Build Amazing Web Application for your business</h3>
-					<h3>We Deliver Qualified Solution for your business</h3>
-					<h3>We Deploy Succeeded Prodution for your business</h3>
-					<h3>We Add Value to your business</h3>
+		<div class="container">
+			<div class="row text-dark" style="margin: 0;">
+				<div class="col-sm-6">
+					<img src="assets/img/web-design.png" style="width: 100%;" alt="">
+				</div>
+				<div class="col-sm-6 amazing-context">
+					<div class="amazing-text">
+						<h3>We Build Amazing Web Application for your business</h3>
+						<h3>We Deliver Qualified Solution for your business</h3>
+						<h3>We Deploy Succeeded Prodution for your business</h3>
+						<h3>We Add Value to your business</h3>
+					</div>
 				</div>
 			</div>
 		</div>
     </div>
+	<section style="padding:40px 0;background-color:#fffa65;">
+		<div class="container">
+			<h2><i class="fas fa-flask"></i> Try our new query engine for Domain and IP Address</h2>
+			<form action="https://tools.supernovasoft.com/tool/" class="form-inline">
+				<div class="form-group">
+					<label for="">Domain Name or IP Address:</label>&nbsp;&nbsp;&nbsp;
+					<input type="text" name="q" class="form-control" placeholder="google.com or 1.1.1.1">&nbsp;&nbsp;&nbsp; <button class="btn btn-dark"><i class="fab fa-searchengin"></i></button>
+				</div>
+			</form>
+		</div>
+	</section>
 	<div class="container">
 		<br><br><br>
-		<div class="row">
+		<section class="row">
 			<div class="col-sm-7">
-				<h2 class="font-italic1">We Offer Best Solution for your Business</h2>
+				<h2 class="font-italic1">We offer best solution for your business</h2>
 				<ul class="business-description list-unstyled">
 					<li>&dash; We deliver best solution for your business, high quality and secure web application using latest technology that add value to your business.</li>
 					<li>&dash; We can implement your web infrastacture on best cloud service such as <span title="Amazon Web Service">AWS</span> with up-to-date system, also we do migration to Amazon Web Service to boost application performance with efficient solution and lower cost.</li>
@@ -49,9 +66,9 @@
 			<div class="col-sm-5">
 				<img src="assets/img/server-installation.png" style="width: 80%;" alt="server">
 			</div>
-		</div>
+		</section>
 		<br><br><hr><br>
-		<div id="services" class="text-center">
+		<section id="services" class="text-center">
 			<h4 class="pb-4">Digital Services</h4>
 			<br>
 			<div class="row services">
@@ -65,13 +82,14 @@
 					<img src="assets/img/svg/communication.svg" alt="Telecommunication">
 					Telecommunication</div>
 			</div>
-		</div>
+		</section>
+		
 		<br><hr><br>
-		<div id="contacts" class="row text-center1 contactus">
+		<section id="contacts" class="row text-center contactus">
 			<div class="col-sm-4"><img src="assets/img//svg/address.svg" alt=""> Istanbul, Turkey</div>
-			<div class="col-sm-4"><img src="assets/img//svg/mail.svg" alt=""> info@supernovasoft.com</div>
-			<div class="col-sm-4"><img src="assets/img//svg/phone.svg" alt=""> +90 531 208 9995</div>
-		</div>
+			<div class="col-sm-4"><img src="assets/img//svg/mail.svg" alt="" onclick="window.location='mailto:info@supernovasoft.com'" style="cursor: pointer;"> info@supernovasoft.com</div>
+			<div class="col-sm-4"><img src="assets/img//svg/phone.svg" alt="" onclick="window.open('https://api.whatsapp.com/send/?phone=905312089995');" style="cursor: pointer;"> +90 531 208 9995</div>
+		</section>
 		<br><hr><br>
 		<footer class="row">
 			<div class="col-sm-6">
@@ -85,7 +103,15 @@
 					</li>
 					<li>&bull;</li>
 					<li>
-						<a href="https://github.com/supernovasoft">Github</a>
+						<a href="https://github.com/supernovasoft"><i class="fab fa-github"></i></a>
+					</li>
+					<li>&bull;</li>
+					<li>
+						<a href="https://twitter.com/Tarek_Kalaajy"><i class="fab fa-twitter" style="color:#6894cc;"></i></a>
+					</li>
+					<li>&bull;</li>
+					<li>
+						<a href="https://api.whatsapp.com/send/?phone=905312089995"><i class="fab fa-whatsapp" style="color:#6bb562;"></i></a>
 					</li>
 				</ul>
 				<br>
