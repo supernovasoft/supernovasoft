@@ -14,7 +14,7 @@
     showNextQuote();
   
     $('#wapp').floatingWhatsApp({
-      phone: '905312089995', 
+      phone: '90000000000', 
       popupMessage: 'Hello, how can we helo you?', 
       showPopup: true,
       showOnIE: false,
