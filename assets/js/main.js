@@ -14,12 +14,12 @@
     showNextQuote();
   
     $('#wapp').floatingWhatsApp({
-      phone: '90000000000', 
-      popupMessage: 'Hello, how can we helo you?', 
+      phone: '905312089995', 
+      popupMessage: 'Hello, how can I help you?', 
       showPopup: true,
       showOnIE: false,
       headerTitle: 'Welcome!',
-      message: "I want to Install Website on AWS!",
+      message: "I want to install and configure system on the Cloud!",
       size: '52px',
     });
   })(jQuery);
