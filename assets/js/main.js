@@ -91,7 +91,7 @@
             message: "I want to install and configure system on the Cloud!",
             size: '52px',
             backgroundColor: '#25D366',
-            position: 'right'
+            position: 'left'
         });
     });
     
