@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -33,7 +35,7 @@
     --ring: 250 100% 65%;
 
     --radius: 0.75rem;
-    
+
     --gradient-start: 250 100% 65%;
     --gradient-end: 280 100% 60%;
     --glow-color: 250 100% 65%;
@@ -67,7 +69,7 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 250 100% 70%;
-    
+
     --gradient-start: 250 100% 70%;
     --gradient-end: 280 100% 65%;
     --glow-color: 250 100% 70%;
@@ -78,13 +80,20 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
-  
+
   html {
     scroll-behavior: smooth;
+  }
+
+  /* Arabic RTL font */
+  html[dir="rtl"] body {
+    font-family: 'Noto Sans Arabic', system-ui, sans-serif;
   }
 }
 
@@ -92,60 +101,60 @@
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-[hsl(var(--gradient-start))] to-[hsl(var(--gradient-end))];
   }
-  
+
   .bg-gradient-primary {
     @apply bg-gradient-to-r from-[hsl(var(--gradient-start))] to-[hsl(var(--gradient-end))];
   }
-  
+
   .glow {
     box-shadow: 0 0 40px -10px hsl(var(--glow-color) / 0.5);
   }
-  
+
   .glow-sm {
     box-shadow: 0 0 20px -5px hsl(var(--glow-color) / 0.4);
   }
-  
+
   .glass {
     @apply bg-background/80 backdrop-blur-xl border border-border/50;
   }
-  
+
   .glass-card {
     @apply bg-card/50 backdrop-blur-lg border border-border/30 shadow-xl;
   }
-  
+
   .animate-gradient {
     background-size: 200% 200%;
     animation: gradient-shift 8s ease infinite;
   }
-  
+
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }
-  
+
   .animate-float-delayed {
     animation: float 6s ease-in-out 2s infinite;
   }
-  
+
   .animate-pulse-glow {
     animation: pulse-glow 3s ease-in-out infinite;
   }
-  
+
   .animate-spin-slow {
     animation: spin 20s linear infinite;
   }
-  
+
   .animate-fade-in {
     animation: fade-in 0.5s ease-out forwards;
   }
-  
+
   .animate-slide-up {
     animation: slide-up 0.5s ease-out forwards;
   }
-  
+
   .noise {
     position: relative;
   }
-  
+
   .noise::before {
     content: "";
     position: absolute;
@@ -155,35 +164,44 @@
     pointer-events: none;
     z-index: 1;
   }
-  
+
   .dark .noise::before {
     opacity: 0.03;
   }
 }
 
 @keyframes gradient-shift {
-  0%, 100% {
+
+  0%,
+  100% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
 }
 
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px) rotate(0deg);
   }
+
   50% {
     transform: translateY(-20px) rotate(2deg);
   }
 }
 
 @keyframes pulse-glow {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
     filter: brightness(1);
   }
+
   50% {
     opacity: 0.8;
     filter: brightness(1.2);
@@ -194,6 +212,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -204,6 +223,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -214,6 +234,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }

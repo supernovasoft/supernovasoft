@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ExternalLink, Sparkles } from 'lucide-react';
+import { Menu, X, ExternalLink, Sparkles, Languages } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ModeToggle } from '@/components/mode-toggle';
+import { useLanguage } from '@/components/language-provider';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const { t, language, setLanguage, isRTL } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,11 +26,18 @@ export function Navbar() {
   }, [location]);
 
   const navLinks = [
-    { name: 'Services', href: '/#services', external: false },
-    { name: 'Blog', href: 'https://blog.supernovasoft.com', external: true },
-    { name: 'Tools', href: 'https://tools.supernovasoft.com', external: true },
-    { name: 'Contact', href: '/#contact', external: false },
+    { name: t('nav.services'), href: '/#services', external: false },
+    { name: t('nav.blog'), href: 'https://blog.supernovasoft.com', external: true },
+    { name: t('nav.tools'), href: 'https://tools.supernovasoft.com', external: true },
+    { name: t('nav.contact'), href: '/#contact', external: false },
   ];
+
+  const toggleLanguage = () => {
+    const langs: ('en' | 'tr' | 'ar')[] = ['en', 'tr', 'ar'];
+    const currentIndex = langs.indexOf(language);
+    const nextIndex = (currentIndex + 1) % langs.length;
+    setLanguage(langs[nextIndex]);
+  };
 
   return (
     <motion.nav
@@ -37,24 +46,24 @@ export function Navbar() {
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
-        scrolled 
-          ? 'glass py-3' 
+        scrolled
+          ? 'glass py-3'
           : 'bg-transparent py-5'
       )}
     >
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3 group">
-            <motion.div 
+            <motion.div
               className="relative"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <div className="absolute inset-0 bg-gradient-primary rounded-lg blur-lg opacity-50 group-hover:opacity-75 transition-opacity" />
-              <img 
-                src="/assets/img/logo.png" 
-                alt="Supernova Soft Logo" 
-                className="relative h-10 w-auto" 
+              <img
+                src="/assets/img/logo.png"
+                alt="Supernova Soft Logo"
+                className="relative h-10 w-auto"
               />
             </motion.div>
             <div className="flex flex-col">
@@ -82,7 +91,7 @@ export function Navbar() {
                   )}
                 >
                   {link.name}
-                  <ExternalLink className="h-3 w-3 opacity-50" />
+                  <ExternalLink className={cn("h-3 w-3 opacity-50", isRTL && "rotate-[270deg]")} />
                 </a>
               ) : (
                 <a
@@ -97,23 +106,45 @@ export function Navbar() {
                 </a>
               )
             ))}
-            
+
             <div className="w-px h-6 bg-border mx-2" />
-            
+
+            <motion.button
+              onClick={toggleLanguage}
+              className="p-2 rounded-lg hover:bg-primary/10 transition-colors flex items-center gap-1.5"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              aria-label="Toggle language"
+            >
+              <Languages className="h-4 w-4" />
+              <span className="text-sm font-medium">{language.toUpperCase()}</span>
+            </motion.button>
+
             <ModeToggle />
-            
+
             <motion.a
               href="/#contact"
-              className="ml-2 px-5 py-2.5 rounded-xl bg-gradient-primary text-white text-sm font-medium flex items-center gap-2 hover:opacity-90 transition-opacity"
+              className={cn(
+                "px-5 py-2.5 rounded-xl bg-gradient-primary text-white text-sm font-medium flex items-center gap-2 hover:opacity-90 transition-opacity",
+                isRTL ? "mr-2" : "ml-2"
+              )}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
               <Sparkles className="h-4 w-4" />
-              Get Started
+              {t('nav.getStarted')}
             </motion.a>
           </div>
 
           <div className="flex items-center gap-3 md:hidden">
+            <motion.button
+              onClick={toggleLanguage}
+              className="p-2 rounded-lg hover:bg-primary/10 transition-colors flex items-center gap-1"
+              whileTap={{ scale: 0.95 }}
+              aria-label="Toggle language"
+            >
+              <span className="text-sm font-medium">{language.toUpperCase()}</span>
+            </motion.button>
             <ModeToggle />
             <motion.button
               className={cn(
@@ -146,7 +177,7 @@ export function Navbar() {
                 {navLinks.map((link, index) => (
                   <motion.div
                     key={link.name}
-                    initial={{ opacity: 0, x: -20 }}
+                    initial={{ opacity: 0, x: isRTL ? 20 : -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
                   >
@@ -170,16 +201,16 @@ export function Navbar() {
                     )}
                   </motion.div>
                 ))}
-                
+
                 <motion.a
                   href="/#contact"
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, x: isRTL ? 20 : -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: navLinks.length * 0.1 }}
                   className="mt-4 px-4 py-3 rounded-xl bg-gradient-primary text-white font-medium flex items-center justify-center gap-2"
                 >
                   <Sparkles className="h-4 w-4" />
-                  Get Started
+                  {t('nav.getStarted')}
                 </motion.a>
               </div>
             </motion.div>

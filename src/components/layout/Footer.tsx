@@ -1,21 +1,24 @@
-import { Github, Twitter, Linkedin, Mail, MapPin, Phone, ArrowUpRight, Sparkles } from 'lucide-react';
+import { Github, Twitter, Linkedin, Mail, MapPin, Phone, ArrowUpRight, ArrowUpLeft, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useLanguage } from '@/components/language-provider';
 
 export function Footer() {
+  const { t, isRTL } = useLanguage();
   const currentYear = new Date().getFullYear();
+  const ArrowIcon = isRTL ? ArrowUpLeft : ArrowUpRight;
 
   const quickLinks = [
-    { name: 'Services', href: '#services' },
-    { name: 'Blog', href: 'https://blog.supernovasoft.com', external: true },
-    { name: 'Tools', href: 'https://tools.supernovasoft.com', external: true },
-    { name: 'Contact', href: '#contact' },
+    { name: t('nav.services'), href: '#services' },
+    { name: t('nav.blog'), href: 'https://blog.supernovasoft.com', external: true },
+    { name: t('nav.tools'), href: 'https://tools.supernovasoft.com', external: true },
+    { name: t('nav.contact'), href: '#contact' },
   ];
 
   const services = [
-    { name: 'Web Development', href: '#services' },
-    { name: 'Cloud & DevOps', href: '#services' },
-    { name: 'Telecommunication', href: '#services' },
-    { name: 'Security Solutions', href: '#services' },
+    { name: t('footer.webDev'), href: '#services' },
+    { name: t('footer.cloudDevOps'), href: '#services' },
+    { name: t('footer.telecom'), href: '#services' },
+    { name: t('footer.security'), href: '#services' },
   ];
 
   const socialLinks = [
@@ -28,7 +31,7 @@ export function Footer() {
     <footer className="relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-t from-card via-card to-background" />
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
-      
+
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12">
           <div className="lg:col-span-5 space-y-6">
@@ -42,12 +45,11 @@ export function Footer() {
                 <span className="text-xs text-primary font-medium tracking-widest">SOFTWARE</span>
               </div>
             </div>
-            
+
             <p className="text-muted-foreground leading-relaxed max-w-sm">
-              Transforming ideas into exceptional digital experiences. We build enterprise-grade solutions 
-              that drive business growth and innovation.
+              {t('footer.description')}
             </p>
-            
+
             <div className="flex gap-3">
               {socialLinks.map((social) => (
                 <motion.a
@@ -67,7 +69,7 @@ export function Footer() {
           </div>
 
           <div className="lg:col-span-2">
-            <h5 className="font-semibold text-sm uppercase tracking-wider text-foreground mb-4">Quick Links</h5>
+            <h5 className="font-semibold text-sm uppercase tracking-wider text-foreground mb-4">{t('footer.quickLinks')}</h5>
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.name}>
@@ -78,7 +80,7 @@ export function Footer() {
                     className="text-muted-foreground hover:text-primary transition-colors text-sm flex items-center gap-1 group"
                   >
                     {link.name}
-                    {link.external && <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />}
+                    {link.external && <ArrowIcon className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />}
                   </a>
                 </li>
               ))}
@@ -86,7 +88,7 @@ export function Footer() {
           </div>
 
           <div className="lg:col-span-2">
-            <h5 className="font-semibold text-sm uppercase tracking-wider text-foreground mb-4">Services</h5>
+            <h5 className="font-semibold text-sm uppercase tracking-wider text-foreground mb-4">{t('footer.services')}</h5>
             <ul className="space-y-3">
               {services.map((service) => (
                 <li key={service.name}>
@@ -102,7 +104,7 @@ export function Footer() {
           </div>
 
           <div className="lg:col-span-3">
-            <h5 className="font-semibold text-sm uppercase tracking-wider text-foreground mb-4">Contact</h5>
+            <h5 className="font-semibold text-sm uppercase tracking-wider text-foreground mb-4">{t('footer.contact')}</h5>
             <ul className="space-y-4">
               <li>
                 <a href="mailto:info@supernovasoft.com" className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors group">
@@ -125,7 +127,7 @@ export function Footer() {
                   <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
                     <MapPin className="h-4 w-4 text-primary" />
                   </div>
-                  <span className="text-sm">Istanbul, Turkey</span>
+                  <span className="text-sm">{t('contact.locationValue')}</span>
                 </div>
               </li>
             </ul>
@@ -135,13 +137,13 @@ export function Footer() {
         <div className="py-8 border-t border-border/50 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Sparkles className="h-4 w-4 text-primary" />
-            <span>&copy; {currentYear} Supernova Soft. All rights reserved.</span>
+            <span>&copy; {currentYear} {t('footer.copyright')}</span>
           </div>
-          
+
           <div className="flex items-center gap-6 text-sm">
-            <a href="#" className="text-muted-foreground hover:text-primary transition-colors">Privacy</a>
-            <a href="#" className="text-muted-foreground hover:text-primary transition-colors">Terms</a>
-            <a href="#" className="text-muted-foreground hover:text-primary transition-colors">Cookies</a>
+            <a href="#" className="text-muted-foreground hover:text-primary transition-colors">{t('footer.privacy')}</a>
+            <a href="#" className="text-muted-foreground hover:text-primary transition-colors">{t('footer.terms')}</a>
+            <a href="#" className="text-muted-foreground hover:text-primary transition-colors">{t('footer.cookies')}</a>
           </div>
         </div>
       </div>
