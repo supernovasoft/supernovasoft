@@ -108,6 +108,23 @@ const translations: Record<Language, Record<string, string>> = {
         "solutions.stat3.value": "24/7",
         "solutions.stat3.label": "Support",
 
+        // Trust / stack
+        "trust.label": "Engineered on the platforms enterprises already run",
+
+        // Process
+        "process.subtitle": "How We Work",
+        "process.title": "From brief to",
+        "process.titleHighlight": "production",
+        "process.description": "A delivery model without surprises. Every phase has defined outputs and acceptance criteria you sign off on.",
+        "process.step1.title": "Discovery & Architecture",
+        "process.step1.description": "We translate business goals into technical requirements: scope, data model, integrations and a reference architecture.",
+        "process.step2.title": "Prototype & Sign-off",
+        "process.step2.description": "A working prototype and a costed roadmap, so you see the risks before a line of production code is written.",
+        "process.step3.title": "Build & Automate",
+        "process.step3.description": "Two-week sprints, automated test suites and CI/CD pipelines that run on every merge.",
+        "process.step4.title": "Launch & Operate",
+        "process.step4.description": "Zero-downtime cutover, monitoring, alerting and ongoing maintenance backed by an SLA.",
+
         // Contact
         "contact.subtitle": "Contact Us",
         "contact.title": "Let's Build",
@@ -224,6 +241,23 @@ const translations: Record<Language, Record<string, string>> = {
         "solutions.stat3.value": "24/7",
         "solutions.stat3.label": "الدعم",
 
+        // Trust / stack
+        "trust.label": "المنصات التي تعتمد عليها المؤسسات، نبني عليها",
+
+        // Process
+        "process.subtitle": "كيف نعمل",
+        "process.title": "من الفكرة إلى",
+        "process.titleHighlight": "الإنتاج الفعلي",
+        "process.description": "نموذج تسليم واضح وقابل للقياس، لكل مرحلة مخرجات محددة ومعايير قبول متفق عليها.",
+        "process.step1.title": "الاستكشاف والتصميم المعماري",
+        "process.step1.description": "نحوّل أهداف عملك إلى متطلبات تقنية: النطاق، نموذج البيانات، التكاملات، والمعمارية المرجعية.",
+        "process.step2.title": "النموذج الأولي والموافقة",
+        "process.step2.description": "نموذج عملي وخارطة طريق واضحة، لترى المخاطر قبل كتابة سطر واحد من الكود.",
+        "process.step3.title": "التطوير والأتمتة",
+        "process.step3.description": "دورات تطوير كل أسبوعين، اختبارات آلية، وخطوط CI/CD تعمل مع كل دمج.",
+        "process.step4.title": "الإطلاق والتشغيل",
+        "process.step4.description": "انتقال دون توقف، مع المراقبة والتنبيهات وصيانة مستمرة مدعومة باتفاقية مستوى خدمة.",
+
         // Contact
         "contact.subtitle": "اتصل بنا",
         "contact.title": "لنبني",
@@ -339,6 +373,23 @@ const translations: Record<Language, Record<string, string>> = {
         "solutions.stat2.label": "Proje",
         "solutions.stat3.value": "7/24",
         "solutions.stat3.label": "Destek",
+
+        // Trust / stack
+        "trust.label": "Kurumların güvendiği platformlar üzerine inşa ediyoruz",
+
+        // Process
+        "process.subtitle": "Nasıl Çalışıyoruz",
+        "process.title": "Brifingten",
+        "process.titleHighlight": "Canlı Sisteme",
+        "process.description": "Sürprizsiz, ölçülebilir bir teslim modeli. Her aşamanın net çıktıları ve kabul kriterleri vardır.",
+        "process.step1.title": "Keşif ve Mimari",
+        "process.step1.description": "İş hedeflerinizi teknik gereksinimlere çeviririz: kapsam, veri modeli, entegrasyonlar ve referans mimari.",
+        "process.step2.title": "Prototip ve Onay",
+        "process.step2.description": "Çalışan bir prototip ve net bir yol haritası. Kod yazılmadan önce riskleri birlikte görürsünüz.",
+        "process.step3.title": "Geliştirme ve Otomasyon",
+        "process.step3.description": "İki haftalık sprintler, otomatik testler ve her birleştirmede çalışan CI/CD hatları.",
+        "process.step4.title": "Devreye Alma ve İşletme",
+        "process.step4.description": "Sıfır kesintili geçiş, izleme, uyarı ve SLA destekli sürekli bakım.",
 
         // Contact
         "contact.subtitle": "Bize Ulaşın",

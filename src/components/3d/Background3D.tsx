@@ -1,277 +1,234 @@
-import { useRef, useMemo } from 'react';
+import { useRef, useMemo, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Float } from '@react-three/drei';
 import { useTheme } from '@/components/theme-provider';
 import * as THREE from 'three';
 
-// Wireframe cube representing engineering/structure
-function WireframeCube({ position, size = 1, color, rotationSpeed = 0.3 }: {
-  position: [number, number, number],
-  size?: number,
-  color: string,
-  rotationSpeed?: number
-}) {
-  const meshRef = useRef<THREE.Mesh>(null!);
+const NODE_COUNT = 46;
+const BOUNDS = { x: 20, y: 14, z: 10 };
+const MAX_LINK_DISTANCE = 6;
+const MAX_LINKS_PER_NODE = 3;
+const PULSE_COUNT = 10;
 
-  useFrame((state) => {
-    const time = state.clock.getElapsedTime();
-    meshRef.current.rotation.x = time * rotationSpeed;
-    meshRef.current.rotation.y = time * rotationSpeed * 0.8;
-  });
+type Link = [number, number];
 
-  return (
-    <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.5}>
-      <mesh ref={meshRef} position={position}>
-        <boxGeometry args={[size, size, size]} />
-        <meshStandardMaterial
-          color={color}
-          wireframe
-          transparent
-          opacity={0.25}
-        />
-      </mesh>
-    </Float>
+function generateNetwork() {
+  const nodes: THREE.Vector3[] = Array.from({ length: NODE_COUNT }, () =>
+    new THREE.Vector3(
+      (Math.random() - 0.5) * BOUNDS.x * 2,
+      (Math.random() - 0.5) * BOUNDS.y * 2,
+      (Math.random() - 0.5) * BOUNDS.z * 2 - 6
+    )
   );
-}
 
-// Octahedron representing mathematical precision
-function WireframeOctahedron({ position, size = 1, color }: {
-  position: [number, number, number],
-  size?: number,
-  color: string
-}) {
-  const meshRef = useRef<THREE.Mesh>(null!);
+  const links: Link[] = [];
+  const linkCount = new Array(NODE_COUNT).fill(0);
 
-  useFrame((state) => {
-    const time = state.clock.getElapsedTime();
-    meshRef.current.rotation.x = time * 0.2;
-    meshRef.current.rotation.z = time * 0.15;
-  });
-
-  return (
-    <Float speed={2} rotationIntensity={0.3} floatIntensity={0.6}>
-      <mesh ref={meshRef} position={position}>
-        <octahedronGeometry args={[size]} />
-        <meshStandardMaterial
-          color={color}
-          wireframe
-          transparent
-          opacity={0.3}
-        />
-      </mesh>
-    </Float>
-  );
-}
-
-// Tetrahedron representing vectors and direction
-function WireframeTetrahedron({ position, size = 1, color }: {
-  position: [number, number, number],
-  size?: number,
-  color: string
-}) {
-  const meshRef = useRef<THREE.Mesh>(null!);
-
-  useFrame((state) => {
-    const time = state.clock.getElapsedTime();
-    meshRef.current.rotation.y = time * 0.25;
-    meshRef.current.rotation.x = Math.sin(time * 0.5) * 0.2;
-  });
-
-  return (
-    <Float speed={1.8} rotationIntensity={0.25} floatIntensity={0.7}>
-      <mesh ref={meshRef} position={position}>
-        <tetrahedronGeometry args={[size]} />
-        <meshStandardMaterial
-          color={color}
-          wireframe
-          transparent
-          opacity={0.35}
-        />
-      </mesh>
-    </Float>
-  );
-}
-
-// Dodecahedron for complexity
-function WireframeDodecahedron({ position, size = 1, color }: {
-  position: [number, number, number],
-  size?: number,
-  color: string
-}) {
-  const meshRef = useRef<THREE.Mesh>(null!);
-
-  useFrame((state) => {
-    const time = state.clock.getElapsedTime();
-    meshRef.current.rotation.x = time * 0.1;
-    meshRef.current.rotation.y = time * 0.15;
-  });
-
-  return (
-    <Float speed={1.2} rotationIntensity={0.15} floatIntensity={0.4}>
-      <mesh ref={meshRef} position={position}>
-        <dodecahedronGeometry args={[size]} />
-        <meshStandardMaterial
-          color={color}
-          wireframe
-          transparent
-          opacity={0.2}
-        />
-      </mesh>
-    </Float>
-  );
-}
-
-// Grid lines representing coordinate systems
-function GridLines({ color, opacity = 0.1 }: { color: string, opacity?: number }) {
-  const linesRef = useRef<THREE.Group>(null!);
-
-  useFrame((state) => {
-    const time = state.clock.getElapsedTime();
-    linesRef.current.rotation.x = Math.sin(time * 0.1) * 0.05;
-    linesRef.current.rotation.y = time * 0.02;
-  });
-
-  const lines = useMemo(() => {
-    const positions: [number, number, number][][] = [];
-    const count = 8;
-    const spread = 15;
-
-    // Horizontal lines
-    for (let i = -count; i <= count; i++) {
-      positions.push([
-        [-spread, i * 1.5, -5],
-        [spread, i * 1.5, -5]
-      ]);
+  for (let i = 0; i < NODE_COUNT; i++) {
+    const candidates = [];
+    for (let j = 0; j < NODE_COUNT; j++) {
+      if (i === j) continue;
+      const distance = nodes[i].distanceTo(nodes[j]);
+      if (distance < MAX_LINK_DISTANCE) candidates.push([j, distance] as const);
     }
+    candidates.sort((a, b) => a[1] - b[1]);
 
-    // Vertical lines
-    for (let i = -count; i <= count; i++) {
-      positions.push([
-        [i * 1.5, -spread, -5],
-        [i * 1.5, spread, -5]
-      ]);
+    for (const [j] of candidates) {
+      if (linkCount[i] >= MAX_LINKS_PER_NODE) break;
+      if (linkCount[j] >= MAX_LINKS_PER_NODE) continue;
+      if (links.some(([a, b]) => (a === i && b === j) || (a === j && b === i))) continue;
+      links.push([i, j]);
+      linkCount[i]++;
+      linkCount[j]++;
     }
+  }
 
-    return positions;
+  return { nodes, links };
+}
+
+function useReducedMotion() {
+  const [reduced, setReduced] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
+
+  useEffect(() => {
+    const query = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const handler = (e: MediaQueryListEvent) => setReduced(e.matches);
+    query.addEventListener('change', handler);
+    return () => query.removeEventListener('change', handler);
   }, []);
 
-  return (
-    <group ref={linesRef}>
-      {lines.map((line, i) => (
-        <line key={i}>
-          <bufferGeometry>
-            <bufferAttribute
-              attach="attributes-position"
-              args={[new Float32Array([...line[0], ...line[1]]), 3]}
-            />
-          </bufferGeometry>
-          <lineBasicMaterial color={color} transparent opacity={opacity} />
-        </line>
-      ))}
-    </group>
-  );
+  return reduced;
 }
 
-// Floating connection points
-function ConnectionNodes({ color }: { color: string }) {
-  const groupRef = useRef<THREE.Group>(null!);
+function usePointer(reducedMotion: boolean) {
+  const pointer = useRef({ x: 0, y: 0 });
 
-  const nodes = useMemo(() => {
-    const positions: [number, number, number][] = [];
-    for (let i = 0; i < 20; i++) {
-      positions.push([
-        (Math.random() - 0.5) * 20,
-        (Math.random() - 0.5) * 15,
-        (Math.random() - 0.5) * 10 - 5
-      ]);
-    }
-    return positions;
-  }, []);
+  useEffect(() => {
+    if (reducedMotion) return;
+    const handler = (e: PointerEvent) => {
+      pointer.current.x = (e.clientX / window.innerWidth) * 2 - 1;
+      pointer.current.y = (e.clientY / window.innerHeight) * 2 - 1;
+    };
+    window.addEventListener('pointermove', handler);
+    return () => window.removeEventListener('pointermove', handler);
+  }, [reducedMotion]);
 
-  useFrame((state) => {
-    const time = state.clock.getElapsedTime();
-    groupRef.current.children.forEach((child, i) => {
-      const mesh = child as THREE.Mesh;
-      mesh.scale.setScalar(0.8 + Math.sin(time * 2 + i) * 0.2);
+  return pointer;
+}
+
+// Glowing network nodes, drawn as one instanced draw call
+function NetworkNodes({ nodes, color, reducedMotion }: { nodes: THREE.Vector3[]; color: string; reducedMotion: boolean }) {
+  const meshRef = useRef<THREE.InstancedMesh>(null!);
+  const dummy = useMemo(() => new THREE.Object3D(), []);
+
+  useEffect(() => {
+    nodes.forEach((pos, i) => {
+      dummy.position.copy(pos);
+      dummy.updateMatrix();
+      meshRef.current.setMatrixAt(i, dummy.matrix);
     });
+    meshRef.current.instanceMatrix.needsUpdate = true;
+  }, [nodes, dummy]);
+
+  useFrame((state) => {
+    if (reducedMotion) return;
+    const time = state.clock.getElapsedTime();
+    nodes.forEach((pos, i) => {
+      const scale = 0.7 + Math.sin(time * 1.5 + i * 0.7) * 0.3;
+      dummy.position.copy(pos);
+      dummy.scale.setScalar(scale);
+      dummy.updateMatrix();
+      meshRef.current.setMatrixAt(i, dummy.matrix);
+    });
+    meshRef.current.instanceMatrix.needsUpdate = true;
   });
 
   return (
-    <group ref={groupRef}>
-      {nodes.map((pos, i) => (
-        <mesh key={i} position={pos}>
-          <sphereGeometry args={[0.05, 8, 8]} />
-          <meshStandardMaterial
-            color={color}
-            emissive={color}
-            emissiveIntensity={0.5}
-            transparent
-            opacity={0.6}
-          />
-        </mesh>
-      ))}
-    </group>
+    <instancedMesh ref={meshRef} args={[undefined, undefined, nodes.length]}>
+      <sphereGeometry args={[0.08, 8, 8]} />
+      <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.8} transparent opacity={0.85} />
+    </instancedMesh>
   );
 }
 
-function Scene({ isDark }: { isDark: boolean }) {
-  const primaryColor = isDark ? '#a78bfa' : '#7c3aed';
-  const secondaryColor = isDark ? '#8b5cf6' : '#6d28d9';
-  const accentColor = isDark ? '#c4b5fd' : '#a78bfa';
+// Connections between nearby nodes, drawn as one line-segments draw call
+function NetworkLinks({ nodes, links, color }: { nodes: THREE.Vector3[]; links: Link[]; color: string }) {
+  const positions = useMemo(() => {
+    const arr = new Float32Array(links.length * 6);
+    links.forEach(([a, b], i) => {
+      arr.set([nodes[a].x, nodes[a].y, nodes[a].z, nodes[b].x, nodes[b].y, nodes[b].z], i * 6);
+    });
+    return arr;
+  }, [nodes, links]);
+
+  return (
+    <lineSegments>
+      <bufferGeometry>
+        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
+      </bufferGeometry>
+      <lineBasicMaterial color={color} transparent opacity={0.14} />
+    </lineSegments>
+  );
+}
+
+function createTravelers(links: Link[]) {
+  return Array.from({ length: Math.min(PULSE_COUNT, links.length) }, () => ({
+    link: links[Math.floor(Math.random() * links.length)],
+    progress: Math.random(),
+    speed: 0.15 + Math.random() * 0.2,
+  }));
+}
+
+// Small glowing pulses traveling along random links, reading as "data flow"
+function DataPulses({ nodes, links, color, reducedMotion }: { nodes: THREE.Vector3[]; links: Link[]; color: string; reducedMotion: boolean }) {
+  const meshRef = useRef<THREE.InstancedMesh>(null!);
+  const dummy = useMemo(() => new THREE.Object3D(), []);
+
+  const travelers = useMemo(() => createTravelers(links), [links]);
+
+  useFrame((_, delta) => {
+    if (reducedMotion) return;
+    travelers.forEach((traveler, i) => {
+      traveler.progress += traveler.speed * delta;
+      if (traveler.progress > 1) {
+        traveler.progress = 0;
+        traveler.link = links[Math.floor(Math.random() * links.length)];
+      }
+      const [a, b] = traveler.link;
+      dummy.position.copy(nodes[a]).lerp(nodes[b], traveler.progress);
+      dummy.updateMatrix();
+      meshRef.current.setMatrixAt(i, dummy.matrix);
+    });
+    meshRef.current.instanceMatrix.needsUpdate = true;
+  });
+
+  if (reducedMotion || travelers.length === 0) return null;
+
+  return (
+    <instancedMesh ref={meshRef} args={[undefined, undefined, travelers.length]}>
+      <sphereGeometry args={[0.05, 6, 6]} />
+      <meshStandardMaterial color={color} emissive={color} emissiveIntensity={2} transparent opacity={0.9} />
+    </instancedMesh>
+  );
+}
+
+function Scene({ isDark, reducedMotion }: { isDark: boolean; reducedMotion: boolean }) {
+  const primaryColor = isDark ? '#60a5fa' : '#2563eb';
+  const accentColor = isDark ? '#22d3ee' : '#0e7490';
+
+  const { nodes, links } = useMemo(() => generateNetwork(), []);
+  const groupRef = useRef<THREE.Group>(null!);
+  const pointer = usePointer(reducedMotion);
+
+  useFrame((state) => {
+    if (reducedMotion || !groupRef.current) return;
+    const time = state.clock.getElapsedTime();
+    groupRef.current.rotation.y += (pointer.current.x * 0.15 - groupRef.current.rotation.y) * 0.03;
+    groupRef.current.rotation.x += (-pointer.current.y * 0.1 - groupRef.current.rotation.x) * 0.03;
+    groupRef.current.position.y = Math.sin(time * 0.25) * 0.3;
+  });
 
   return (
     <>
-      <fog attach="fog" args={[isDark ? '#09090b' : '#ffffff', 10, 30]} />
-      <ambientLight intensity={0.4} />
-      <pointLight position={[10, 10, 10]} intensity={0.5} color={accentColor} />
-      <pointLight position={[-10, -10, -5]} intensity={0.3} color={primaryColor} />
+      <fog attach="fog" args={[isDark ? '#05070f' : '#fcfdfe', 10, 32]} />
+      <ambientLight intensity={0.5} />
+      <pointLight position={[10, 10, 10]} intensity={0.6} color={accentColor} />
+      <pointLight position={[-10, -8, -5]} intensity={0.4} color={primaryColor} />
 
-      {/* Grid background */}
-      <GridLines color={primaryColor} opacity={isDark ? 0.08 : 0.05} />
-
-      {/* Engineering shapes */}
-      <WireframeCube position={[-5, 3, -8]} size={2} color={primaryColor} />
-      <WireframeCube position={[6, -2, -6]} size={1.5} color={secondaryColor} rotationSpeed={0.2} />
-
-      <WireframeOctahedron position={[4, 4, -10]} size={1.8} color={primaryColor} />
-      <WireframeOctahedron position={[-3, -4, -7]} size={1.2} color={accentColor} />
-
-      <WireframeTetrahedron position={[-6, -1, -5]} size={1.5} color={secondaryColor} />
-      <WireframeTetrahedron position={[2, 2, -4]} size={1} color={primaryColor} />
-
-      <WireframeDodecahedron position={[0, -3, -12]} size={2.5} color={accentColor} />
-      <WireframeDodecahedron position={[-4, 5, -15]} size={3} color={primaryColor} />
-
-      {/* Connection nodes */}
-      <ConnectionNodes color={accentColor} />
+      <group ref={groupRef}>
+        <NetworkLinks nodes={nodes} links={links} color={primaryColor} />
+        <NetworkNodes nodes={nodes} color={primaryColor} reducedMotion={reducedMotion} />
+        <DataPulses nodes={nodes} links={links} color={accentColor} reducedMotion={reducedMotion} />
+      </group>
     </>
   );
 }
 
 export function Background3D() {
   const { theme } = useTheme();
+  const reducedMotion = useReducedMotion();
   const isDark = theme === 'dark' || (theme === 'system' && typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
   return (
     <div className="absolute inset-0 -z-10">
-      <div className={`absolute inset-0 transition-colors duration-500 ${isDark ? 'bg-[#09090b]' : 'bg-white'}`} />
+      <div className={`absolute inset-0 transition-colors duration-500 ${isDark ? 'bg-[#05070f]' : 'bg-[#fcfdfe]'}`} />
 
       <Canvas
         camera={{ position: [0, 0, 12], fov: 60 }}
         dpr={[1, 2]}
         style={{ position: 'absolute', inset: 0 }}
       >
-        <Scene isDark={isDark} />
+        <Scene isDark={isDark} reducedMotion={reducedMotion} />
       </Canvas>
 
       <div className={`absolute inset-0 pointer-events-none ${isDark
-        ? 'bg-gradient-to-b from-transparent via-transparent to-[#09090b]'
-        : 'bg-gradient-to-b from-transparent via-transparent to-white'
+        ? 'bg-gradient-to-b from-transparent via-transparent to-[#05070f]'
+        : 'bg-gradient-to-b from-transparent via-transparent to-[#fcfdfe]'
         }`} />
 
       <div className={`absolute inset-0 pointer-events-none ${isDark
-        ? 'bg-[radial-gradient(ellipse_at_top,rgba(139,92,246,0.12),transparent_50%)]'
-        : 'bg-[radial-gradient(ellipse_at_top,rgba(124,58,237,0.08),transparent_50%)]'
+        ? 'bg-[radial-gradient(ellipse_at_top,rgba(56,130,246,0.16),transparent_55%)]'
+        : 'bg-[radial-gradient(ellipse_at_top,rgba(37,99,235,0.08),transparent_55%)]'
         }`} />
     </div>
   );

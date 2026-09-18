@@ -1,11 +1,11 @@
-import { Github, Twitter, Linkedin, Mail, MapPin, Phone, ArrowUpRight, ArrowUpLeft, Sparkles } from 'lucide-react';
+import { Github, Twitter, Linkedin, Mail, MapPin, Phone, ArrowUpRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/components/language-provider';
+import { StatusDot } from '@/components/ui/primitives';
 
 export function Footer() {
-  const { t, isRTL } = useLanguage();
+  const { t } = useLanguage();
   const currentYear = new Date().getFullYear();
-  const ArrowIcon = isRTL ? ArrowUpLeft : ArrowUpRight;
 
   const quickLinks = [
     { name: t('nav.services'), href: '#services' },
@@ -15,10 +15,10 @@ export function Footer() {
   ];
 
   const services = [
-    { name: t('footer.webDev'), href: '#services' },
-    { name: t('footer.cloudDevOps'), href: '#services' },
-    { name: t('footer.telecom'), href: '#services' },
-    { name: t('footer.security'), href: '#services' },
+    t('footer.webDev'),
+    t('footer.cloudDevOps'),
+    t('footer.telecom'),
+    t('footer.security'),
   ];
 
   const socialLinks = [
@@ -27,40 +27,47 @@ export function Footer() {
     { icon: Linkedin, href: '#', label: 'LinkedIn' },
   ];
 
-  return (
-    <footer className="relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-t from-card via-card to-background" />
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+  const contactRows = [
+    { icon: Mail, text: 'info@supernovasoft.com', href: 'mailto:info@supernovasoft.com' },
+    { icon: Phone, text: '+90 531 208 9995', href: 'tel:+905312089995' },
+    { icon: MapPin, text: t('contact.locationValue'), href: null },
+  ];
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12">
-          <div className="lg:col-span-5 space-y-6">
+  return (
+    <footer className="relative overflow-hidden border-t border-[hsl(var(--hairline)/var(--hairline-opacity))] bg-secondary/25">
+      <div aria-hidden className="absolute inset-0 grid-lines-sm opacity-50 mask-fade-b" />
+
+      <div className="container relative z-10">
+        <div className="grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-12">
+          <div className="space-y-6 lg:col-span-5">
             <div className="flex items-center gap-3">
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-primary rounded-lg blur-lg opacity-50" />
-                <img src="/assets/img/logo.png" alt="Supernova Soft Logo" className="relative h-10 w-auto" />
+                <div className="absolute inset-0 rounded-lg bg-primary/40 opacity-40 blur-lg" />
+                <img src="/assets/img/logo.png" alt="Supernova Soft" className="relative h-9 w-auto" />
               </div>
-              <div className="flex flex-col">
-                <span className="font-bold text-lg tracking-tight leading-none">SUPERNOVA</span>
-                <span className="text-xs text-primary font-medium tracking-widest">SOFTWARE</span>
-              </div>
+              <span className="flex flex-col leading-none">
+                <span className="font-display text-base font-bold tracking-tight">SUPERNOVA</span>
+                <span className="mt-0.5 font-mono text-[9px] tracking-[0.3em] text-primary">SOFTWARE</span>
+              </span>
             </div>
 
-            <p className="text-muted-foreground leading-relaxed max-w-sm">
-              {t('footer.description')}
-            </p>
+            <p className="max-w-sm leading-relaxed text-muted-foreground">{t('footer.description')}</p>
 
-            <div className="flex gap-3">
+            <div className="inline-flex items-center gap-2.5 rounded-full hairline bg-card/50 px-3.5 py-1.5">
+              <StatusDot />
+              <span className="font-mono text-[11px] text-muted-foreground">All systems operational</span>
+            </div>
+
+            <div className="flex gap-2.5">
               {socialLinks.map((social) => (
                 <motion.a
                   key={social.label}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="h-10 w-10 rounded-xl glass flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all group"
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
                   aria-label={social.label}
+                  whileHover={{ y: -2 }}
+                  className="flex h-10 w-10 items-center justify-center rounded-xl hairline bg-card/50 text-muted-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
                 >
                   <social.icon className="h-4 w-4" />
                 </motion.a>
@@ -69,18 +76,22 @@ export function Footer() {
           </div>
 
           <div className="lg:col-span-2">
-            <h5 className="font-semibold text-sm uppercase tracking-wider text-foreground mb-4">{t('footer.quickLinks')}</h5>
-            <ul className="space-y-3">
+            <h5 className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+              {t('footer.quickLinks')}
+            </h5>
+            <ul className="mt-5 space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.name}>
                   <a
                     href={link.href}
                     target={link.external ? '_blank' : undefined}
                     rel={link.external ? 'noopener noreferrer' : undefined}
-                    className="text-muted-foreground hover:text-primary transition-colors text-sm flex items-center gap-1 group"
+                    className="group inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-primary"
                   >
                     {link.name}
-                    {link.external && <ArrowIcon className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />}
+                    {link.external && (
+                      <ArrowUpRight className="h-3 w-3 opacity-0 transition-opacity group-hover:opacity-100 rtl:-scale-x-100" />
+                    )}
                   </a>
                 </li>
               ))}
@@ -88,15 +99,14 @@ export function Footer() {
           </div>
 
           <div className="lg:col-span-2">
-            <h5 className="font-semibold text-sm uppercase tracking-wider text-foreground mb-4">{t('footer.services')}</h5>
-            <ul className="space-y-3">
+            <h5 className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+              {t('footer.services')}
+            </h5>
+            <ul className="mt-5 space-y-3">
               {services.map((service) => (
-                <li key={service.name}>
-                  <a
-                    href={service.href}
-                    className="text-muted-foreground hover:text-primary transition-colors text-sm"
-                  >
-                    {service.name}
+                <li key={service}>
+                  <a href="#services" className="text-sm text-muted-foreground transition-colors hover:text-primary">
+                    {service}
                   </a>
                 </li>
               ))}
@@ -104,46 +114,52 @@ export function Footer() {
           </div>
 
           <div className="lg:col-span-3">
-            <h5 className="font-semibold text-sm uppercase tracking-wider text-foreground mb-4">{t('footer.contact')}</h5>
-            <ul className="space-y-4">
-              <li>
-                <a href="mailto:info@supernovasoft.com" className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors group">
-                  <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                    <Mail className="h-4 w-4 text-primary" />
-                  </div>
-                  <span className="text-sm">info@supernovasoft.com</span>
-                </a>
-              </li>
-              <li>
-                <a href="tel:+905312089995" className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors group">
-                  <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                    <Phone className="h-4 w-4 text-primary" />
-                  </div>
-                  <span className="text-sm">+90 531 208 9995</span>
-                </a>
-              </li>
-              <li>
-                <div className="flex items-center gap-3 text-muted-foreground">
-                  <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <MapPin className="h-4 w-4 text-primary" />
-                  </div>
-                  <span className="text-sm">{t('contact.locationValue')}</span>
-                </div>
-              </li>
+            <h5 className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+              {t('footer.contact')}
+            </h5>
+            <ul className="mt-5 space-y-3">
+              {contactRows.map((row) => {
+                const content = (
+                  <>
+                    <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
+                      <row.icon className="h-3.5 w-3.5 text-primary" />
+                    </span>
+                    <span className="text-sm">{row.text}</span>
+                  </>
+                );
+                return (
+                  <li key={row.text}>
+                    {row.href ? (
+                      <a href={row.href} className="flex items-center gap-3 text-muted-foreground transition-colors hover:text-primary">
+                        {content}
+                      </a>
+                    ) : (
+                      <div className="flex items-center gap-3 text-muted-foreground">{content}</div>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </div>
 
-        <div className="py-8 border-t border-border/50 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Sparkles className="h-4 w-4 text-primary" />
-            <span>&copy; {currentYear} {t('footer.copyright')}</span>
-          </div>
+        {/* Oversized wordmark: fills the base of the page instead of dead space */}
+        <div aria-hidden className="pointer-events-none select-none overflow-hidden">
+          <p className="font-display text-[15vw] font-bold leading-[0.8] tracking-tighter text-foreground/[0.035] md:text-[11vw]">
+            SUPERNOVA SOFT
+          </p>
+        </div>
 
+        <div className="flex flex-col items-center justify-between gap-4 border-t border-[hsl(var(--hairline)/var(--hairline-opacity))] py-7 text-sm md:flex-row">
+          <span className="font-mono text-xs text-muted-foreground">
+            © {currentYear} {t('footer.copyright')}
+          </span>
           <div className="flex items-center gap-6 text-sm">
-            <a href="#" className="text-muted-foreground hover:text-primary transition-colors">{t('footer.privacy')}</a>
-            <a href="#" className="text-muted-foreground hover:text-primary transition-colors">{t('footer.terms')}</a>
-            <a href="#" className="text-muted-foreground hover:text-primary transition-colors">{t('footer.cookies')}</a>
+            {[t('footer.privacy'), t('footer.terms'), t('footer.cookies')].map((label) => (
+              <a key={label} href="#" className="text-muted-foreground transition-colors hover:text-primary">
+                {label}
+              </a>
+            ))}
           </div>
         </div>
       </div>

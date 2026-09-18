@@ -1,29 +1,28 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ExternalLink, Sparkles, Languages } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Menu, X, ExternalLink, ArrowRight, Languages } from 'lucide-react';
+import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { ModeToggle } from '@/components/mode-toggle';
 import { useLanguage } from '@/components/language-provider';
-import { motion, AnimatePresence } from 'framer-motion';
+
+const LANGS: ('en' | 'tr' | 'ar')[] = ['en', 'tr', 'ar'];
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const location = useLocation();
-  const { t, language, setLanguage, isRTL } = useLanguage();
+  const { t, language, setLanguage } = useLanguage();
+
+  // Reading-progress rail pinned to the very top of the viewport
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 26, restDelta: 0.001 });
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
-
-  useEffect(() => {
-    setIsOpen(false);
-  }, [location]);
 
   const navLinks = [
     { name: t('nav.services'), href: '/#services', external: false },
@@ -32,191 +31,133 @@ export function Navbar() {
     { name: t('nav.contact'), href: '/#contact', external: false },
   ];
 
-  const toggleLanguage = () => {
-    const langs: ('en' | 'tr' | 'ar')[] = ['en', 'tr', 'ar'];
-    const currentIndex = langs.indexOf(language);
-    const nextIndex = (currentIndex + 1) % langs.length;
-    setLanguage(langs[nextIndex]);
-  };
+  const cycleLanguage = () => setLanguage(LANGS[(LANGS.indexOf(language) + 1) % LANGS.length]);
 
   return (
-    <motion.nav
-      initial={{ y: -100 }}
+    <motion.header
+      initial={{ y: -80 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
+        'fixed inset-x-0 top-0 z-50 transition-all duration-500',
         scrolled
-          ? 'glass py-3'
-          : 'bg-transparent py-5'
+          ? 'glass border-b border-[hsl(var(--hairline)/var(--hairline-opacity))] py-2.5'
+          : 'bg-transparent py-4'
       )}
     >
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3 group">
-            <motion.div
-              className="relative"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <div className="absolute inset-0 bg-gradient-primary rounded-lg blur-lg opacity-50 group-hover:opacity-75 transition-opacity" />
-              <img
-                src="/assets/img/logo.png"
-                alt="Supernova Soft Logo"
-                className="relative h-10 w-auto"
-              />
-            </motion.div>
-            <div className="flex flex-col">
-              <span className={cn(
-                "font-bold text-lg tracking-tight transition-colors leading-none",
-                scrolled ? "text-foreground" : "text-foreground"
-              )}>
-                SUPERNOVA
-              </span>
-              <span className="text-xs text-primary font-medium tracking-widest">SOFTWARE</span>
-            </div>
-          </Link>
+      <motion.div
+        aria-hidden
+        style={{ scaleX: progress }}
+        className="absolute inset-x-0 top-0 h-px origin-left bg-gradient-primary rtl:origin-right"
+      />
 
-          <div className="hidden md:flex items-center gap-1">
+      <nav className="container flex items-center justify-between gap-4">
+        <Link to="/" className="group flex items-center gap-3">
+          <div className="relative">
+            <div className="absolute inset-0 rounded-lg bg-primary/40 blur-lg opacity-40 transition-opacity group-hover:opacity-70" />
+            <img src="/assets/img/logo.png" alt="Supernova Soft" className="relative h-9 w-auto" />
+          </div>
+          <span className="flex flex-col leading-none">
+            <span className="font-display text-base font-bold tracking-tight">SUPERNOVA</span>
+            <span className="mt-0.5 font-mono text-[9px] tracking-[0.3em] text-primary">SOFTWARE</span>
+          </span>
+        </Link>
+
+        <div className="hidden items-center gap-1 md:flex">
+          <div className="flex items-center rounded-full hairline bg-card/40 p-1">
             {navLinks.map((link) => (
-              link.external ? (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={cn(
-                    "px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-1.5 hover:bg-primary/10",
-                    scrolled ? "text-foreground/80 hover:text-primary" : "text-foreground/80 hover:text-primary"
-                  )}
-                >
-                  {link.name}
-                  <ExternalLink className={cn("h-3 w-3 opacity-50", isRTL && "rotate-[270deg]")} />
-                </a>
-              ) : (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className={cn(
-                    "px-4 py-2 rounded-lg text-sm font-medium transition-all hover:bg-primary/10",
-                    scrolled ? "text-foreground/80 hover:text-primary" : "text-foreground/80 hover:text-primary"
-                  )}
-                >
-                  {link.name}
-                </a>
-              )
+              <a
+                key={link.name}
+                href={link.href}
+                target={link.external ? '_blank' : undefined}
+                rel={link.external ? 'noopener noreferrer' : undefined}
+                className="flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-medium text-foreground/75 transition-colors hover:bg-primary/10 hover:text-primary"
+              >
+                {link.name}
+                {link.external && <ExternalLink className="h-3 w-3 opacity-50" />}
+              </a>
             ))}
-
-            <div className="w-px h-6 bg-border mx-2" />
-
-            <motion.button
-              onClick={toggleLanguage}
-              className="p-2 rounded-lg hover:bg-primary/10 transition-colors flex items-center gap-1.5"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              aria-label="Toggle language"
-            >
-              <Languages className="h-4 w-4" />
-              <span className="text-sm font-medium">{language.toUpperCase()}</span>
-            </motion.button>
-
-            <ModeToggle />
-
-            <motion.a
-              href="/#contact"
-              className={cn(
-                "px-5 py-2.5 rounded-xl bg-gradient-primary text-white text-sm font-medium flex items-center gap-2 hover:opacity-90 transition-opacity",
-                isRTL ? "mr-2" : "ml-2"
-              )}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <Sparkles className="h-4 w-4" />
-              {t('nav.getStarted')}
-            </motion.a>
           </div>
 
-          <div className="flex items-center gap-3 md:hidden">
-            <motion.button
-              onClick={toggleLanguage}
-              className="p-2 rounded-lg hover:bg-primary/10 transition-colors flex items-center gap-1"
-              whileTap={{ scale: 0.95 }}
-              aria-label="Toggle language"
-            >
-              <span className="text-sm font-medium">{language.toUpperCase()}</span>
-            </motion.button>
-            <ModeToggle />
-            <motion.button
-              className={cn(
-                "p-2.5 rounded-xl transition-colors",
-                scrolled ? "glass" : "bg-foreground/10"
-              )}
-              onClick={() => setIsOpen(!isOpen)}
-              aria-label="Toggle menu"
-              whileTap={{ scale: 0.95 }}
-            >
-              {isOpen ? (
-                <X className="h-5 w-5 text-foreground" />
-              ) : (
-                <Menu className="h-5 w-5 text-foreground" />
-              )}
-            </motion.button>
-          </div>
+          <button
+            onClick={cycleLanguage}
+            className="ms-1 flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium transition-colors hover:bg-primary/10"
+            aria-label="Change language"
+          >
+            <Languages className="h-4 w-4" />
+            <span className="font-mono text-xs">{language.toUpperCase()}</span>
+          </button>
+
+          <ModeToggle />
+
+          <a
+            href="/#contact"
+            className="ms-2 inline-flex items-center gap-2 rounded-full bg-gradient-primary px-5 py-2.5 text-sm font-medium text-white transition-all hover:opacity-90 hover:shadow-[0_0_24px_-6px_hsl(var(--glow-color))]"
+          >
+            {t('nav.getStarted')}
+            <ArrowRight className="h-3.5 w-3.5 rtl:rotate-180" />
+          </a>
         </div>
 
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-              className="md:hidden overflow-hidden"
-            >
-              <div className="flex flex-col py-6 gap-2">
-                {navLinks.map((link, index) => (
-                  <motion.div
-                    key={link.name}
-                    initial={{ opacity: 0, x: isRTL ? 20 : -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                  >
-                    {link.external ? (
-                      <a
-                        href={link.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-between px-4 py-3 rounded-xl hover:bg-primary/10 text-foreground font-medium transition-colors"
-                      >
-                        {link.name}
-                        <ExternalLink className="h-4 w-4 text-muted-foreground" />
-                      </a>
-                    ) : (
-                      <a
-                        href={link.href}
-                        className="block px-4 py-3 rounded-xl hover:bg-primary/10 text-foreground font-medium transition-colors"
-                      >
-                        {link.name}
-                      </a>
-                    )}
-                  </motion.div>
-                ))}
+        <div className="flex items-center gap-2 md:hidden">
+          <button
+            onClick={cycleLanguage}
+            className="rounded-lg px-2 py-2 font-mono text-xs font-medium hover:bg-primary/10"
+            aria-label="Change language"
+          >
+            {language.toUpperCase()}
+          </button>
+          <ModeToggle />
+          <button
+            className="rounded-xl hairline bg-card/50 p-2.5"
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle menu"
+            aria-expanded={isOpen}
+          >
+            {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
+      </nav>
 
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            className="overflow-hidden md:hidden"
+          >
+            <div className="container flex flex-col gap-1 py-5">
+              {navLinks.map((link, i) => (
                 <motion.a
-                  href="/#contact"
-                  initial={{ opacity: 0, x: isRTL ? 20 : -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: navLinks.length * 0.1 }}
-                  className="mt-4 px-4 py-3 rounded-xl bg-gradient-primary text-white font-medium flex items-center justify-center gap-2"
+                  key={link.name}
+                  href={link.href}
+                  target={link.external ? '_blank' : undefined}
+                  rel={link.external ? 'noopener noreferrer' : undefined}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.06 }}
+                  onClick={() => setIsOpen(false)}
+                  className="flex items-center justify-between rounded-xl px-4 py-3 font-medium transition-colors hover:bg-primary/10"
                 >
-                  <Sparkles className="h-4 w-4" />
-                  {t('nav.getStarted')}
+                  {link.name}
+                  {link.external && <ExternalLink className="h-4 w-4 text-muted-foreground" />}
                 </motion.a>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </motion.nav>
+              ))}
+
+              <a
+                href="/#contact"
+                onClick={() => setIsOpen(false)}
+                className="mt-3 flex items-center justify-center gap-2 rounded-xl bg-gradient-primary px-4 py-3 font-medium text-white"
+              >
+                {t('nav.getStarted')}
+                <ArrowRight className="h-4 w-4 rtl:rotate-180" />
+              </a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.header>
   );
 }

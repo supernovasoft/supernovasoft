@@ -1,150 +1,187 @@
-import { ArrowDown, Code2, Cloud, Smartphone, ShieldCheck, Rocket, Zap, Globe, Lock, Layers, ChevronRight, ChevronLeft, Mail, MapPin, Phone as PhoneIcon } from 'lucide-react';
+import {
+  ArrowDown, ArrowRight, Check, Cloud, Code2, Github, Globe, Layers, Linkedin,
+  Lock, Mail, MapPin, Phone as PhoneIcon, Rocket, ShieldCheck, Smartphone, Terminal, Twitter, Zap,
+} from 'lucide-react';
+import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Background3D } from '@/components/3d/Background3D';
 import { useLanguage } from '@/components/language-provider';
-import { TechBackgroundSVG } from '@/components/ui/ServiceBackgrounds';
-import { ITHeroBackground } from '@/components/ui/ITHeroBackground';
-import { motion } from 'framer-motion';
+import { CloudMotif, TelecomMotif, WebMotif } from '@/components/ui/ServiceBackgrounds';
+import { SystemConsole } from '@/components/ui/SystemConsole';
+import {
+  CountUp, Eyebrow, Marquee, Section, SectionHeading, SpotlightCard, StatusDot,
+} from '@/components/ui/primitives';
+import { fadeUp, stagger } from '@/lib/motion';
 
-const fadeInUp = {
-  initial: { opacity: 0, y: 30 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
-};
-
-const staggerContainer = {
-  animate: {
-    transition: {
-      staggerChildren: 0.1
-    }
-  }
-};
+/* ------------------------------------------------------------------ Hero */
 
 export function Hero() {
-  const { t, isRTL } = useLanguage();
-  const ChevronIcon = isRTL ? ChevronLeft : ChevronRight;
+  const { t } = useLanguage();
+
+  const proof = [
+    { icon: ShieldCheck, text: t('hero.feature1') },
+    { icon: Zap, text: t('hero.feature2') },
+    { icon: Globe, text: t('hero.feature3') },
+  ];
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen flex items-center overflow-hidden">
       <Background3D />
-      <ITHeroBackground className="absolute top-0 left-0 right-0 bottom-0 w-full h-full z-[1] opacity-70" />
+      <div aria-hidden className="absolute inset-0 -z-10 aurora" />
+      <div aria-hidden className="absolute inset-0 -z-10 grid-lines mask-fade opacity-70" />
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10 pt-24 pb-16">
-        <motion.div
-          className="max-w-4xl mx-auto text-center space-y-8"
-          initial="initial"
-          animate="animate"
-          variants={staggerContainer}
-        >
-          <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card text-sm font-medium text-muted-foreground">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-            </span>
-            {t('hero.badge')}
-          </motion.div>
-
-          <motion.h1
-            variants={fadeInUp}
-            className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight leading-[1.1]"
-          >
-            {t('hero.title1')}{' '}
-            <span className="text-gradient">{t('hero.titleHighlight')}</span>
-            <br />
-            {t('hero.title2')}
-          </motion.h1>
-
-          <motion.p
-            variants={fadeInUp}
-            className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed"
-          >
-            {t('hero.description')}
-          </motion.p>
-
+      <div className="container relative z-10 pt-32 pb-24 md:pt-36">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-10 items-center">
           <motion.div
-            variants={fadeInUp}
-            className="flex flex-col sm:flex-row gap-4 justify-center pt-4"
+            className="lg:col-span-6 xl:col-span-6"
+            initial="initial"
+            animate="animate"
+            variants={stagger(0.1)}
           >
-            <Button size="lg" className="text-base px-8 h-12 bg-gradient-primary hover:opacity-90 transition-opacity glow-sm" asChild>
-              <a href="#contact" className="gap-2">
-                {t('hero.cta')}
-                <ChevronIcon className="h-4 w-4" />
-              </a>
-            </Button>
-            <Button size="lg" variant="outline" className="text-base px-8 h-12 glass hover:bg-primary/10" asChild>
-              <a href="#services">{t('hero.ctaSecondary')}</a>
-            </Button>
+            <motion.div variants={fadeUp}>
+              <span className="inline-flex items-center gap-2.5 rounded-full glass px-3.5 py-1.5 text-xs font-medium text-muted-foreground">
+                <StatusDot />
+                {t('hero.badge')}
+              </span>
+            </motion.div>
+
+            <motion.h1
+              variants={fadeUp}
+              className="mt-7 text-4xl sm:text-5xl xl:text-7xl font-bold leading-[1.04] text-balance"
+            >
+              {t('hero.title1')}{' '}
+              <span className="text-gradient">{t('hero.titleHighlight')}</span>{' '}
+              {t('hero.title2')}
+            </motion.h1>
+
+            <motion.p
+              variants={fadeUp}
+              className="mt-6 max-w-xl text-base md:text-lg text-muted-foreground leading-relaxed"
+            >
+              {t('hero.description')}
+            </motion.p>
+
+            <motion.div variants={fadeUp} className="mt-9 flex flex-col sm:flex-row gap-3">
+              <Button size="lg" className="h-12 px-7 text-base bg-gradient-primary hover:opacity-90 glow-sm" asChild>
+                <a href="#contact" className="gap-2">
+                  {t('hero.cta')}
+                  <ArrowRight className="h-4 w-4 rtl:rotate-180" />
+                </a>
+              </Button>
+              <Button size="lg" variant="outline" className="h-12 px-7 text-base glass hover:bg-primary/10" asChild>
+                <a href="#services">{t('hero.ctaSecondary')}</a>
+              </Button>
+            </motion.div>
+
+            <motion.ul
+              variants={fadeUp}
+              className="mt-10 flex flex-wrap gap-x-7 gap-y-3 text-sm text-muted-foreground"
+            >
+              {proof.map((item) => (
+                <li key={item.text} className="flex items-center gap-2">
+                  <item.icon className="h-4 w-4 text-primary" />
+                  {item.text}
+                </li>
+              ))}
+            </motion.ul>
           </motion.div>
 
-          <motion.div
-            variants={fadeInUp}
-            className="pt-12 flex flex-wrap justify-center gap-8 text-sm text-muted-foreground"
-          >
-            {[
-              { icon: ShieldCheck, text: t('hero.feature1') },
-              { icon: Zap, text: t('hero.feature2') },
-              { icon: Globe, text: t('hero.feature3') }
-            ].map((item, i) => (
-              <div key={i} className="flex items-center gap-2">
-                <item.icon className="h-4 w-4 text-primary" />
-                <span>{item.text}</span>
-              </div>
-            ))}
-          </motion.div>
-        </motion.div>
+          <div className="lg:col-span-6 xl:col-span-6">
+            <SystemConsole />
+          </div>
+        </div>
       </div>
 
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1, duration: 0.5 }}
+      <motion.a
+        href="#services"
+        className="absolute bottom-7 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2 }}
       >
-        <a href="#services" className="flex flex-col items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
-          <span className="text-xs font-medium tracking-wider uppercase">{t('hero.scroll')}</span>
-          <ArrowDown className="h-5 w-5 animate-bounce" />
-        </a>
-      </motion.div>
+        <span className="font-mono text-[10px] uppercase tracking-[0.2em]">{t('hero.scroll')}</span>
+        <ArrowDown className="h-4 w-4 animate-bounce" />
+      </motion.a>
     </section>
   );
 }
 
-function ServiceCard({ icon: Icon, title, description, features, gradient }: { icon: React.ComponentType<any>, title: string, description: string, features: string[], gradient: string }) {
-  const { isRTL } = useLanguage();
-  const ChevronIcon = isRTL ? ChevronLeft : ChevronRight;
+/* ----------------------------------------------------------- Trust strip */
+
+const STACK = [
+  'AWS', 'Kubernetes', 'Docker', 'Terraform', 'PostgreSQL', 'Redis', 'React', 'Node.js',
+  'Python', 'Django', 'Asterisk', 'FreeSWITCH', 'Kafka', 'Grafana', 'Cloudflare', 'NGINX',
+];
+
+export function TrustStrip() {
+  const { t } = useLanguage();
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.5 }}
-      whileHover={{ y: -5, transition: { duration: 0.2 } }}
-      className="group relative glass-card rounded-2xl p-8 overflow-hidden"
-    >
-      <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${gradient}`} />
-
-      <div className={`h-14 w-14 rounded-xl bg-gradient-to-br ${gradient} p-[1px] mb-6`}>
-        <div className="h-full w-full bg-card rounded-xl flex items-center justify-center">
-          <Icon className="h-6 w-6 text-primary" />
-        </div>
-      </div>
-
-      <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">{title}</h3>
-      <p className="text-muted-foreground mb-6 leading-relaxed">{description}</p>
-
-      <ul className="space-y-3">
-        {features.map((feature, index) => (
-          <li key={index} className="flex items-center gap-3 text-sm text-muted-foreground">
-            <div className={`h-5 w-5 rounded-full bg-gradient-to-br ${gradient} p-[1px] flex-shrink-0`}>
-              <div className="h-full w-full bg-card rounded-full flex items-center justify-center">
-                <ChevronIcon className="h-3 w-3 text-primary" />
-              </div>
-            </div>
-            {feature}
-          </li>
+    <div className="relative hairline-y border-y border-[hsl(var(--hairline)/var(--hairline-opacity))] bg-secondary/25 py-7">
+      <p className="container text-center font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+        {t('trust.label')}
+      </p>
+      <Marquee className="mt-5">
+        {STACK.map((name) => (
+          <span
+            key={name}
+            className="flex items-center gap-2 rounded-full hairline bg-card/50 px-4 py-2 font-mono text-xs text-foreground/70"
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-primary/60" />
+            {name}
+          </span>
         ))}
-      </ul>
+      </Marquee>
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------- Services */
+
+function ServiceCard({
+  index, icon: Icon, title, description, features, motif, wide = false,
+}: {
+  index: string;
+  icon: React.ComponentType<{ className?: string }>;
+  title: string;
+  description: string;
+  features: string[];
+  motif: React.ReactNode;
+  wide?: boolean;
+}) {
+  return (
+    <motion.div
+      variants={fadeUp}
+      className={wide ? 'lg:col-span-6' : 'lg:col-span-3'}
+    >
+      <SpotlightCard className="h-full">
+        <div className={wide ? 'grid md:grid-cols-2 gap-8 p-8' : 'p-8'}>
+          <div>
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl hairline bg-primary/10">
+                <Icon className="h-5 w-5 text-primary" />
+              </div>
+              <span className="font-mono text-xs text-muted-foreground/60">{index}</span>
+            </div>
+
+            <h3 className="mt-6 text-xl font-bold transition-colors group-hover:text-primary">{title}</h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{description}</p>
+
+            <ul className="mt-6 space-y-2.5">
+              {features.map((feature) => (
+                <li key={feature} className="flex items-start gap-2.5 text-sm text-muted-foreground">
+                  <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" />
+                  {feature}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className={wide ? 'flex items-center justify-center' : 'pointer-events-none mt-8'}>
+            <div className={wide ? 'w-full' : 'opacity-70'}>{motif}</div>
+          </div>
+        </div>
+      </SpotlightCard>
     </motion.div>
   );
 }
@@ -154,434 +191,434 @@ export function Services() {
 
   const services = [
     {
+      index: '01',
       icon: Code2,
       title: t('services.web.title'),
       description: t('services.web.description'),
-      features: [t('services.web.feature1'), t('services.web.feature2'), t('services.web.feature3'), t('services.web.feature4')],
-      gradient: "from-violet-500 to-purple-500"
+      features: ['feature1', 'feature2', 'feature3', 'feature4'].map((k) => t(`services.web.${k}`)),
+      motif: <WebMotif className="h-32 w-full" />,
     },
     {
+      index: '02',
       icon: Cloud,
       title: t('services.cloud.title'),
       description: t('services.cloud.description'),
-      features: [t('services.cloud.feature1'), t('services.cloud.feature2'), t('services.cloud.feature3'), t('services.cloud.feature4')],
-      gradient: "from-blue-500 to-cyan-500"
+      features: ['feature1', 'feature2', 'feature3', 'feature4'].map((k) => t(`services.cloud.${k}`)),
+      motif: <CloudMotif className="h-32 w-full" />,
     },
     {
+      index: '03',
       icon: Smartphone,
       title: t('services.telecom.title'),
       description: t('services.telecom.description'),
-      features: [t('services.telecom.feature1'), t('services.telecom.feature2'), t('services.telecom.feature3'), t('services.telecom.feature4')],
-      gradient: "from-emerald-500 to-teal-500"
-    }
+      features: ['feature1', 'feature2', 'feature3', 'feature4'].map((k) => t(`services.telecom.${k}`)),
+      motif: <TelecomMotif className="h-44 w-full" />,
+      wide: true,
+    },
   ];
 
   return (
-    <section id="services" className="py-24 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/20 to-background z-0" />
-      <TechBackgroundSVG className="absolute top-0 left-0 right-0 bottom-0 w-full h-full opacity-60 z-[1]" />
+    <Section id="services" grid>
+      <SectionHeading
+        eyebrow={t('services.subtitle')}
+        title={t('services.title')}
+        highlight={t('services.titleHighlight')}
+        description={t('services.description')}
+      />
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <span className="text-primary font-semibold text-sm tracking-wider uppercase">{t('services.subtitle')}</span>
-          <h2 className="text-3xl md:text-5xl font-bold mt-3 mb-4">
-            {t('services.title')} <span className="text-gradient">{t('services.titleHighlight')}</span>
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            {t('services.description')}
-          </p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {services.map((service, index) => (
-            <ServiceCard key={index} {...service} />
-          ))}
-        </div>
-      </div>
-    </section>
+      <motion.div
+        className="mt-14 grid gap-5 lg:grid-cols-6"
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true, margin: '-60px' }}
+        variants={stagger()}
+      >
+        {services.map((service) => (
+          <ServiceCard key={service.index} {...service} />
+        ))}
+      </motion.div>
+    </Section>
   );
 }
+
+/* ---------------------------------------------------------- Capabilities */
+
+export function Solutions() {
+  const { t } = useLanguage();
+
+  const capabilities = [
+    { icon: ShieldCheck, key: 'security' },
+    { icon: Cloud, key: 'cloud' },
+    { icon: Smartphone, key: 'telecom' },
+    { icon: Rocket, key: 'performance' },
+    { icon: Layers, key: 'scalability' },
+    { icon: Lock, key: 'compliance' },
+  ];
+
+  const stats = [
+    { value: t('solutions.stat1.value'), label: t('solutions.stat1.label') },
+    { value: t('solutions.stat2.value'), label: t('solutions.stat2.label') },
+    { value: t('solutions.stat3.value'), label: t('solutions.stat3.label') },
+  ];
+
+  return (
+    <Section className="bg-secondary/25">
+      <SectionHeading
+        eyebrow={t('solutions.subtitle')}
+        title={t('solutions.title')}
+        highlight={t('solutions.titleHighlight')}
+        description={t('solutions.description')}
+      />
+
+      {/* Spec-sheet grid: hairline gaps instead of floating cards */}
+      <motion.div
+        className="mt-14 overflow-hidden rounded-2xl hairline bg-[hsl(var(--hairline)/var(--hairline-opacity))] grid gap-px sm:grid-cols-2 lg:grid-cols-3"
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true, margin: '-60px' }}
+        variants={stagger()}
+      >
+        {capabilities.map((item, i) => (
+          <motion.div
+            key={item.key}
+            variants={fadeUp}
+            className="group relative bg-background p-7 transition-colors duration-300 hover:bg-card"
+          >
+            <div className="flex items-center justify-between">
+              <item.icon className="h-5 w-5 text-primary" />
+              <span className="font-mono text-[11px] text-muted-foreground/50">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+            </div>
+            <h3 className="mt-5 font-bold transition-colors group-hover:text-primary">
+              {t(`solutions.${item.key}.title`)}
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              {t(`solutions.${item.key}.description`)}
+            </p>
+            <span className="absolute inset-x-0 bottom-0 h-px scale-x-0 bg-gradient-primary transition-transform duration-500 group-hover:scale-x-100" />
+          </motion.div>
+        ))}
+      </motion.div>
+
+      {/* Metrics band */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="relative mt-6 overflow-hidden rounded-2xl glass-card"
+      >
+        <div aria-hidden className="absolute inset-0 dot-grid opacity-50" />
+        <div className="relative grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[hsl(var(--hairline)/var(--hairline-opacity))] rtl:sm:divide-x-reverse">
+          {stats.map((stat) => (
+            <div key={stat.label} className="px-8 py-8 text-center">
+              <div className="font-display text-3xl md:text-4xl font-bold tabular-nums text-gradient">
+                <CountUp value={stat.value} />
+              </div>
+              <div className="mt-2 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                {stat.label}
+              </div>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+    </Section>
+  );
+}
+
+/* --------------------------------------------------------------- Process */
+
+export function Process() {
+  const { t } = useLanguage();
+  const steps = ['step1', 'step2', 'step3', 'step4'];
+
+  return (
+    <Section>
+      <SectionHeading
+        eyebrow={t('process.subtitle')}
+        title={t('process.title')}
+        highlight={t('process.titleHighlight')}
+        description={t('process.description')}
+      />
+
+      <div className="relative mt-16">
+        {/* Rail the steps hang from */}
+        <motion.div
+          aria-hidden
+          className="absolute left-0 right-0 top-6 hidden lg:block h-px origin-left bg-gradient-to-r from-primary/60 via-primary/30 to-transparent"
+          initial={{ scaleX: 0 }}
+          whileInView={{ scaleX: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.1, ease: 'easeOut' }}
+        />
+
+        <motion.ol
+          className="grid gap-10 lg:grid-cols-4 lg:gap-8"
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true, margin: '-60px' }}
+          variants={stagger()}
+        >
+          {steps.map((step, i) => (
+            <motion.li key={step} variants={fadeUp} className="group relative">
+              <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-xl hairline bg-card font-mono text-sm font-medium text-primary transition-colors group-hover:border-primary/40">
+                {String(i + 1).padStart(2, '0')}
+              </div>
+              <h3 className="mt-5 text-lg font-bold">{t(`process.${step}.title`)}</h3>
+              <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">
+                {t(`process.${step}.description`)}
+              </p>
+            </motion.li>
+          ))}
+        </motion.ol>
+      </div>
+    </Section>
+  );
+}
+
+/* ----------------------------------------------------------------- Tools */
 
 export function Tools() {
   const { t, isRTL } = useLanguage();
 
-  return (
-    <section className="py-24 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-purple-500/5" />
-
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center gap-16">
-          <motion.div
-            className="flex-1 space-y-6"
-            initial={{ opacity: 0, x: isRTL ? 30 : -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-          >
-            <span className="text-primary font-semibold text-sm tracking-wider uppercase">{t('tools.subtitle')}</span>
-            <h2 className="text-3xl md:text-5xl font-bold leading-tight">
-              {t('tools.title1')}
-              <br />
-              <span className="text-gradient">{t('tools.title2')}</span>
-            </h2>
-            <p className="text-lg text-muted-foreground leading-relaxed max-w-lg">
-              {t('tools.description')}
-            </p>
-
-            <form action="https://tools.supernovasoft.com/tool/" className="flex flex-col sm:flex-row gap-3 pt-4">
-              <div className="flex-1 relative">
-                <Globe className={`absolute top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground ${isRTL ? 'right-4' : 'left-4'}`} />
-                <input
-                  type="text"
-                  name="q"
-                  placeholder={t('tools.placeholder')}
-                  className={`w-full py-4 rounded-xl glass focus:outline-none focus:ring-2 focus:ring-primary text-foreground placeholder:text-muted-foreground ${isRTL ? 'pr-12 pl-4' : 'pl-12 pr-4'}`}
-                  required
-                />
-              </div>
-              <Button type="submit" size="lg" className="h-auto py-4 px-8 bg-gradient-primary hover:opacity-90 rounded-xl">
-                <Zap className={`h-4 w-4 ${isRTL ? 'ml-2' : 'mr-2'}`} />
-                {t('tools.analyze')}
-              </Button>
-            </form>
-          </motion.div>
-
-          <motion.div
-            className="flex-1 w-full max-w-lg"
-            initial={{ opacity: 0, x: isRTL ? -30 : 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-          >
-            <div className="relative">
-              <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-purple-500/20 rounded-3xl blur-2xl" />
-              <div className="relative glass-card rounded-2xl p-8 space-y-4">
-                <div className="flex items-center gap-3 pb-4 border-b border-border/50">
-                  <div className="flex gap-1.5">
-                    <div className="h-3 w-3 rounded-full bg-red-500" />
-                    <div className="h-3 w-3 rounded-full bg-yellow-500" />
-                    <div className="h-3 w-3 rounded-full bg-green-500" />
-                  </div>
-                  <span className="text-xs text-muted-foreground font-mono">query_engine.sh</span>
-                </div>
-
-                <div className="font-mono text-sm space-y-3" dir="ltr">
-                  <div className="flex items-center gap-2">
-                    <span className="text-primary">$</span>
-                    <span className="text-muted-foreground">analyze google.com</span>
-                  </div>
-                  <div className="pl-4 space-y-1 text-muted-foreground">
-                    <p><span className="text-emerald-500">✓</span> {t('tools.demo2')}</p>
-                    <p><span className="text-emerald-500">✓</span> {t('tools.demo3')}</p>
-                    <p><span className="text-emerald-500">✓</span> {t('tools.demo4')}</p>
-                    <p><span className="text-emerald-500">✓</span> {t('tools.demo5')}</p>
-                  </div>
-                  <div className="flex items-center gap-2 pt-2">
-                    <span className="text-primary">$</span>
-                    <span className="animate-pulse">_</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-export function Solutions() {
-  const { t, isRTL } = useLanguage();
-
-  const solutionFeatures = [
-    {
-      icon: ShieldCheck,
-      title: t('solutions.security.title'),
-      description: t('solutions.security.description'),
-      gradient: "from-red-500 to-orange-500"
-    },
-    {
-      icon: Cloud,
-      title: t('solutions.cloud.title'),
-      description: t('solutions.cloud.description'),
-      gradient: "from-blue-500 to-cyan-500"
-    },
-    {
-      icon: Smartphone,
-      title: t('solutions.telecom.title'),
-      description: t('solutions.telecom.description'),
-      gradient: "from-emerald-500 to-teal-500"
-    },
-    {
-      icon: Rocket,
-      title: t('solutions.performance.title'),
-      description: t('solutions.performance.description'),
-      gradient: "from-violet-500 to-purple-500"
-    },
-    {
-      icon: Layers,
-      title: t('solutions.scalability.title'),
-      description: t('solutions.scalability.description'),
-      gradient: "from-pink-500 to-rose-500"
-    },
-    {
-      icon: Lock,
-      title: t('solutions.compliance.title'),
-      description: t('solutions.compliance.description'),
-      gradient: "from-amber-500 to-yellow-500"
-    }
+  const output = [
+    { label: t('tools.demo2'), meta: 'dns' },
+    { label: t('tools.demo3'), meta: 'tls' },
+    { label: t('tools.demo4'), meta: 'sec' },
+    { label: t('tools.demo5'), meta: 'perf' },
   ];
 
   return (
-    <section className="py-24 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-t from-secondary/30 via-background to-background" />
-
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
+    <Section className="bg-secondary/25" grid>
+      <div className="grid items-center gap-14 lg:grid-cols-2">
         <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, x: isRTL ? 24 : -24 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
         >
-          <span className="text-primary font-semibold text-sm tracking-wider uppercase">{t('solutions.subtitle')}</span>
-          <h2 className="text-3xl md:text-5xl font-bold mt-3 mb-4">
-            {t('solutions.title')} <span className="text-gradient">{t('solutions.titleHighlight')}</span>
+          <Eyebrow>{t('tools.subtitle')}</Eyebrow>
+          <h2 className="mt-4 text-3xl md:text-5xl font-bold leading-[1.08]">
+            {t('tools.title1')}
+            <br />
+            <span className="text-gradient">{t('tools.title2')}</span>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            {t('solutions.description')}
+          <p className="mt-5 max-w-lg text-base md:text-lg leading-relaxed text-muted-foreground">
+            {t('tools.description')}
           </p>
+
+          <form action="https://tools.supernovasoft.com/tool/" className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="relative flex-1">
+              <Globe className="pointer-events-none absolute top-1/2 -translate-y-1/2 start-4 h-4 w-4 text-muted-foreground" />
+              <input
+                type="text"
+                name="q"
+                placeholder={t('tools.placeholder')}
+                aria-label={t('tools.placeholder')}
+                className="w-full rounded-xl glass py-4 ps-11 pe-4 font-mono text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                required
+              />
+            </div>
+            <Button type="submit" size="lg" className="h-auto rounded-xl bg-gradient-primary px-8 py-4 hover:opacity-90">
+              <Zap className="h-4 w-4" />
+              {t('tools.analyze')}
+            </Button>
+          </form>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {solutionFeatures.map((feature, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: index * 0.1 }}
-              className="group p-6 rounded-2xl glass hover:bg-card/80 transition-all duration-300"
-            >
-              <div className={`h-12 w-12 rounded-xl bg-gradient-to-br ${feature.gradient} p-[1px] mb-4`}>
-                <div className="h-full w-full bg-background rounded-xl flex items-center justify-center group-hover:bg-card transition-colors">
-                  <feature.icon className="h-5 w-5 text-foreground" />
-                </div>
-              </div>
-              <h3 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors">{feature.title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
-            </motion.div>
-          ))}
-        </div>
-
         <motion.div
-          className="mt-16 text-center"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, x: isRTL ? -24 : 24 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="relative"
         >
-          <div className={`inline-flex items-center gap-8 px-8 py-4 rounded-2xl glass-card ${isRTL ? 'flex-row-reverse' : ''}`}>
-            {[
-              { value: t('solutions.stat1.value'), label: t('solutions.stat1.label') },
-              { value: t('solutions.stat2.value'), label: t('solutions.stat2.label') },
-              { value: t('solutions.stat3.value'), label: t('solutions.stat3.label') }
-            ].map((stat, i) => (
-              <div key={i} className="text-center">
-                <div className="text-2xl md:text-3xl font-bold text-gradient">{stat.value}</div>
-                <div className="text-xs text-muted-foreground uppercase tracking-wider">{stat.label}</div>
-              </div>
-            ))}
+          <div aria-hidden className="absolute -inset-6 bg-gradient-to-tr from-primary/15 to-accent2/15 blur-3xl" />
+
+          <div dir="ltr" className="relative overflow-hidden rounded-2xl glass-card">
+            <div className="flex items-center gap-2.5 hairline-b bg-secondary/40 px-4 py-3">
+              <Terminal className="h-3.5 w-3.5 text-primary" />
+              <span className="font-mono text-xs text-muted-foreground">query_engine.sh</span>
+              <span className="ms-auto font-mono text-[10px] uppercase tracking-widest text-muted-foreground/70">
+                exit 0
+              </span>
+            </div>
+
+            <motion.div
+              className="space-y-2.5 p-6 font-mono text-sm"
+              initial="initial"
+              whileInView="animate"
+              viewport={{ once: true }}
+              variants={stagger(0.2)}
+            >
+              <motion.div variants={fadeUp} className="flex items-center gap-2">
+                <span className="text-primary">$</span>
+                <span className="text-foreground/80">analyze supernovasoft.com</span>
+              </motion.div>
+
+              {output.map((line) => (
+                <motion.div key={line.meta} variants={fadeUp} className="flex items-start gap-2.5 ps-4 text-xs">
+                  <span className="text-emerald-500">✓</span>
+                  <span className="w-9 shrink-0 text-muted-foreground/60">{line.meta}</span>
+                  <span className="text-muted-foreground">{line.label}</span>
+                </motion.div>
+              ))}
+
+              <motion.div variants={fadeUp} className="flex items-center gap-2 pt-2">
+                <span className="text-primary">$</span>
+                <span className="inline-block h-4 w-2 animate-pulse bg-primary/70" />
+              </motion.div>
+            </motion.div>
           </div>
         </motion.div>
       </div>
-    </section>
+    </Section>
   );
 }
+
+/* --------------------------------------------------------------- Contact */
+
+const SOCIALS = [
+  { icon: Github, href: 'https://github.com/supernovasoft', label: 'GitHub' },
+  { icon: Twitter, href: 'https://twitter.com/Tarek_Kalaajy', label: 'Twitter' },
+  { icon: Linkedin, href: '#', label: 'LinkedIn' },
+];
+
+const FIELD_CLASS =
+  'w-full rounded-xl hairline bg-secondary/40 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/70 transition-colors focus:border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary/40';
 
 export function Contact() {
   const { t, isRTL } = useLanguage();
 
   const contactInfo = [
-    {
-      icon: MapPin,
-      title: t('contact.location'),
-      value: t('contact.locationValue'),
-      href: null,
-      gradient: "from-red-500 to-orange-500"
-    },
-    {
-      icon: Mail,
-      title: t('contact.email'),
-      value: "info@supernovasoft.com",
-      href: "mailto:info@supernovasoft.com",
-      gradient: "from-blue-500 to-cyan-500"
-    },
-    {
-      icon: PhoneIcon,
-      title: t('contact.phone'),
-      value: "+90 531 208 9995",
-      href: "tel:+905312089995",
-      gradient: "from-emerald-500 to-teal-500"
-    }
+    { icon: MapPin, title: t('contact.location'), value: t('contact.locationValue'), href: null },
+    { icon: Mail, title: t('contact.email'), value: 'info@supernovasoft.com', href: 'mailto:info@supernovasoft.com' },
+    { icon: PhoneIcon, title: t('contact.phone'), value: '+90 531 208 9995', href: 'tel:+905312089995' },
   ];
 
   return (
-    <section id="contact" className="py-24 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/20 to-background" />
+    <Section id="contact" grid>
+      <SectionHeading
+        eyebrow={t('contact.subtitle')}
+        title={t('contact.title')}
+        highlight={t('contact.titleHighlight')}
+        description={t('contact.description')}
+      />
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
+      <div className="mt-14 grid gap-10 lg:grid-cols-5">
         <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          className="lg:col-span-2 space-y-3"
+          initial={{ opacity: 0, x: isRTL ? 24 : -24 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
         >
-          <span className="text-primary font-semibold text-sm tracking-wider uppercase">{t('contact.subtitle')}</span>
-          <h2 className="text-3xl md:text-5xl font-bold mt-3 mb-4">
-            {t('contact.title')} <span className="text-gradient">{t('contact.titleHighlight')}</span>
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            {t('contact.description')}
-          </p>
-        </motion.div>
+          {contactInfo.map((item) => {
+            const inner = (
+              <>
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl hairline bg-primary/10">
+                  <item.icon className="h-4 w-4 text-primary" />
+                </div>
+                <div className="min-w-0">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+                    {item.title}
+                  </p>
+                  <p className="mt-1 truncate font-medium transition-colors group-hover:text-primary">{item.value}</p>
+                </div>
+              </>
+            );
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
-          <motion.div
-            className="lg:col-span-2 space-y-6"
-            initial={{ opacity: 0, x: isRTL ? 30 : -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-          >
-            <div className="space-y-6">
-              {contactInfo.map((item, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: isRTL ? 20 : -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="group"
+            return item.href ? (
+              <a
+                key={item.title}
+                href={item.href}
+                className="group flex items-center gap-4 rounded-xl hairline bg-card/40 p-4 transition-colors hover:bg-card"
+              >
+                {inner}
+              </a>
+            ) : (
+              <div key={item.title} className="group flex items-center gap-4 rounded-xl hairline bg-card/40 p-4">
+                {inner}
+              </div>
+            );
+          })}
+
+          <div className="pt-5">
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+              {t('contact.social')}
+            </p>
+            <div className="mt-3 flex gap-2.5">
+              {SOCIALS.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.label}
+                  className="flex h-10 w-10 items-center justify-center rounded-xl hairline bg-card/40 text-muted-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
                 >
-                  {item.href ? (
-                    <a href={item.href} className="flex items-center gap-4 p-4 rounded-xl glass hover:bg-card/80 transition-all">
-                      <div className={`h-12 w-12 rounded-xl bg-gradient-to-br ${item.gradient} p-[1px] flex-shrink-0`}>
-                        <div className="h-full w-full bg-background rounded-xl flex items-center justify-center group-hover:bg-card transition-colors">
-                          <item.icon className="h-5 w-5 text-foreground" />
-                        </div>
-                      </div>
-                      <div>
-                        <p className="text-xs text-muted-foreground uppercase tracking-wider">{item.title}</p>
-                        <p className="font-semibold group-hover:text-primary transition-colors">{item.value}</p>
-                      </div>
-                    </a>
-                  ) : (
-                    <div className="flex items-center gap-4 p-4 rounded-xl glass">
-                      <div className={`h-12 w-12 rounded-xl bg-gradient-to-br ${item.gradient} p-[1px] flex-shrink-0`}>
-                        <div className="h-full w-full bg-background rounded-xl flex items-center justify-center">
-                          <item.icon className="h-5 w-5 text-foreground" />
-                        </div>
-                      </div>
-                      <div>
-                        <p className="text-xs text-muted-foreground uppercase tracking-wider">{item.title}</p>
-                        <p className="font-semibold">{item.value}</p>
-                      </div>
-                    </div>
-                  )}
-                </motion.div>
+                  <social.icon className="h-4 w-4" />
+                </a>
               ))}
             </div>
+          </div>
+        </motion.div>
 
-            <div className="pt-6">
-              <p className="text-sm text-muted-foreground mb-4">{t('contact.social')}</p>
-              <div className="flex gap-3">
-                {['github', 'twitter', 'linkedin'].map((social) => (
-                  <a
-                    key={social}
-                    href={social === 'github' ? 'https://github.com/supernovasoft' : social === 'twitter' ? 'https://twitter.com/Tarek_Kalaajy' : '#'}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="h-10 w-10 rounded-lg glass flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors"
-                  >
-                    <span className="text-sm font-bold uppercase">{social[0]}</span>
-                  </a>
-                ))}
+        <motion.div
+          className="lg:col-span-3"
+          initial={{ opacity: 0, x: isRTL ? -24 : 24 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <form className="rounded-2xl glass-card p-7 md:p-8 space-y-5">
+            <div className="grid gap-5 md:grid-cols-2">
+              <div className="space-y-2">
+                <label htmlFor="name" className="text-sm font-medium">{t('contact.form.name')}</label>
+                <input id="name" name="name" type="text" required
+                  placeholder={t('contact.form.namePlaceholder')} className={FIELD_CLASS} />
+              </div>
+              <div className="space-y-2">
+                <label htmlFor="email" className="text-sm font-medium">{t('contact.form.email')}</label>
+                <input id="email" name="email" type="email" required
+                  placeholder={t('contact.form.emailPlaceholder')} className={FIELD_CLASS} />
               </div>
             </div>
-          </motion.div>
 
-          <motion.div
-            className="lg:col-span-3"
-            initial={{ opacity: 0, x: isRTL ? -30 : 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-          >
-            <div className="relative">
-              <div className="absolute -inset-4 bg-gradient-to-r from-primary/10 to-purple-500/10 rounded-3xl blur-2xl" />
-              <form className="relative glass-card rounded-2xl p-8 space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label htmlFor="name" className="text-sm font-medium">{t('contact.form.name')}</label>
-                    <input
-                      id="name"
-                      type="text"
-                      placeholder={t('contact.form.namePlaceholder')}
-                      className="w-full px-4 py-3 rounded-xl glass focus:outline-none focus:ring-2 focus:ring-primary text-foreground placeholder:text-muted-foreground"
-                      required
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label htmlFor="email" className="text-sm font-medium">{t('contact.form.email')}</label>
-                    <input
-                      id="email"
-                      type="email"
-                      placeholder={t('contact.form.emailPlaceholder')}
-                      className="w-full px-4 py-3 rounded-xl glass focus:outline-none focus:ring-2 focus:ring-primary text-foreground placeholder:text-muted-foreground"
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <label htmlFor="subject" className="text-sm font-medium">{t('contact.form.subject')}</label>
-                  <input
-                    id="subject"
-                    type="text"
-                    placeholder={t('contact.form.subjectPlaceholder')}
-                    className="w-full px-4 py-3 rounded-xl glass focus:outline-none focus:ring-2 focus:ring-primary text-foreground placeholder:text-muted-foreground"
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label htmlFor="message" className="text-sm font-medium">{t('contact.form.message')}</label>
-                  <textarea
-                    id="message"
-                    rows={5}
-                    placeholder={t('contact.form.messagePlaceholder')}
-                    className="w-full px-4 py-3 rounded-xl glass focus:outline-none focus:ring-2 focus:ring-primary text-foreground placeholder:text-muted-foreground resize-none"
-                    required
-                  />
-                </div>
-                <Button type="submit" size="lg" className="w-full bg-gradient-primary hover:opacity-90 h-12 rounded-xl">
-                  <Mail className={`h-4 w-4 ${isRTL ? 'ml-2' : 'mr-2'}`} />
-                  {t('contact.form.submit')}
-                </Button>
-              </form>
+            <div className="space-y-2">
+              <label htmlFor="subject" className="text-sm font-medium">{t('contact.form.subject')}</label>
+              <input id="subject" name="subject" type="text" required
+                placeholder={t('contact.form.subjectPlaceholder')} className={FIELD_CLASS} />
             </div>
-          </motion.div>
-        </div>
+
+            <div className="space-y-2">
+              <label htmlFor="message" className="text-sm font-medium">{t('contact.form.message')}</label>
+              <textarea id="message" name="message" rows={5} required
+                placeholder={t('contact.form.messagePlaceholder')} className={`${FIELD_CLASS} resize-none`} />
+            </div>
+
+            <Button type="submit" size="lg" className="h-12 w-full rounded-xl bg-gradient-primary hover:opacity-90">
+              <Mail className="h-4 w-4" />
+              {t('contact.form.submit')}
+            </Button>
+          </form>
+        </motion.div>
       </div>
-    </section>
+    </Section>
   );
 }
 
+/* ------------------------------------------------------------------ Page */
+
 export function Home() {
   return (
-    <div className="flex flex-col min-h-screen bg-background text-foreground">
+    <div className="flex min-h-screen flex-col bg-background text-foreground">
       <Hero />
+      <TrustStrip />
       <Services />
-      <Tools />
       <Solutions />
+      <Process />
+      <Tools />
       <Contact />
     </div>
   );
