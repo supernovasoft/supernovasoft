@@ -1,12 +1,12 @@
 import {
   ArrowDown, ArrowRight, Check, Cloud, Code2, Github, Globe, Layers, Linkedin,
-  Lock, Mail, MapPin, Phone as PhoneIcon, Rocket, ShieldCheck, Smartphone, Terminal, Twitter, Zap,
+  Lock, Mail, MapPin, MessageSquare, Phone as PhoneIcon, Rocket, ShieldCheck, Smartphone, Terminal, Twitter, Zap,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Background3D } from '@/components/3d/Background3D';
 import { useLanguage } from '@/components/language-provider';
-import { CloudMotif, TelecomMotif, WebMotif } from '@/components/ui/ServiceBackgrounds';
+import { CloudMotif, MailMotif, MessageMotif, TelecomMotif, WebMotif } from '@/components/ui/ServiceBackgrounds';
 import { SystemConsole } from '@/components/ui/SystemConsole';
 import {
   CountUp, Eyebrow, Marquee, Section, SectionHeading, SpotlightCard, StatusDot,
@@ -108,10 +108,7 @@ export function Hero() {
 
 /* ----------------------------------------------------------- Trust strip */
 
-const STACK = [
-  'AWS', 'Kubernetes', 'Docker', 'Terraform', 'PostgreSQL', 'Redis', 'React', 'Node.js',
-  'Python', 'Django', 'Asterisk', 'FreeSWITCH', 'Kafka', 'Grafana', 'Cloudflare', 'NGINX',
-];
+const SOLUTIONS = ['trust.item1', 'trust.item2', 'trust.item3', 'trust.item4', 'trust.item5', 'trust.item6', 'trust.item7', 'trust.item8'];
 
 export function TrustStrip() {
   const { t } = useLanguage();
@@ -122,13 +119,13 @@ export function TrustStrip() {
         {t('trust.label')}
       </p>
       <Marquee className="mt-5">
-        {STACK.map((name) => (
+        {SOLUTIONS.map((key) => (
           <span
-            key={name}
+            key={key}
             className="flex items-center gap-2 rounded-full hairline bg-card/50 px-4 py-2 font-mono text-xs text-foreground/70"
           >
             <span className="h-1.5 w-1.5 rounded-full bg-primary/60" />
-            {name}
+            {t(key)}
           </span>
         ))}
       </Marquee>
@@ -214,6 +211,22 @@ export function Services() {
       features: ['feature1', 'feature2', 'feature3', 'feature4'].map((k) => t(`services.telecom.${k}`)),
       motif: <TelecomMotif className="h-44 w-full" />,
       wide: true,
+    },
+    {
+      index: '04',
+      icon: Mail,
+      title: t('services.novamail.title'),
+      description: t('services.novamail.description'),
+      features: ['feature1', 'feature2', 'feature3', 'feature4'].map((k) => t(`services.novamail.${k}`)),
+      motif: <MailMotif className="h-32 w-full" />,
+    },
+    {
+      index: '05',
+      icon: MessageSquare,
+      title: t('services.jasminpro.title'),
+      description: t('services.jasminpro.description'),
+      features: ['feature1', 'feature2', 'feature3', 'feature4'].map((k) => t(`services.jasminpro.${k}`)),
+      motif: <MessageMotif className="h-32 w-full" />,
     },
   ];
 

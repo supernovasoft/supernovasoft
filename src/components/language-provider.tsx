@@ -70,6 +70,18 @@ const translations: Record<Language, Record<string, string>> = {
         "services.telecom.feature2": "Contact Center Solutions",
         "services.telecom.feature3": "VoIP Infrastructure",
         "services.telecom.feature4": "HD Voice Quality",
+        "services.novamail.title": "Nova Mail",
+        "services.novamail.description": "A private, reliable email service built for your organization — professional inboxes, shared calendars, and secure messaging under your own domain.",
+        "services.novamail.feature1": "Business Email Under Your Domain",
+        "services.novamail.feature2": "Shared Calendars & Contacts",
+        "services.novamail.feature3": "Spam & Virus Protection",
+        "services.novamail.feature4": "Secure Storage & Backups",
+        "services.jasminpro.title": "Jasmin Pro",
+        "services.jasminpro.description": "A dependable SMS gateway that lets your organization send and receive text messages at scale, connected directly to telecom carriers worldwide.",
+        "services.jasminpro.feature1": "Bulk & Transactional SMS",
+        "services.jasminpro.feature2": "Direct Carrier Connections",
+        "services.jasminpro.feature3": "Delivery Tracking & Reports",
+        "services.jasminpro.feature4": "Enterprise-Grade Reliability",
 
         // Tools
         "tools.subtitle": "Free Tool",
@@ -109,7 +121,15 @@ const translations: Record<Language, Record<string, string>> = {
         "solutions.stat3.label": "Support",
 
         // Trust / stack
-        "trust.label": "Engineered on the platforms enterprises already run",
+        "trust.label": "Solutions and services organizations rely on every day",
+        "trust.item1": "Nova Mail",
+        "trust.item2": "Jasmin Pro",
+        "trust.item3": "Web Platforms",
+        "trust.item4": "Cloud Hosting",
+        "trust.item5": "Business Phone Systems",
+        "trust.item6": "Contact Centers",
+        "trust.item7": "Data Security",
+        "trust.item8": "24/7 Support",
 
         // Process
         "process.subtitle": "How We Work",
@@ -154,6 +174,8 @@ const translations: Record<Language, Record<string, string>> = {
         "footer.cloudDevOps": "Cloud & DevOps",
         "footer.telecom": "Telecommunication",
         "footer.security": "Security Solutions",
+        "footer.novamail": "Nova Mail",
+        "footer.jasminpro": "Jasmin Pro",
         "footer.copyright": "Supernova Soft. All rights reserved.",
         "footer.privacy": "Privacy",
         "footer.terms": "Terms",
@@ -203,6 +225,18 @@ const translations: Record<Language, Record<string, string>> = {
         "services.telecom.feature2": "حلول مراكز الاتصال",
         "services.telecom.feature3": "بنية VoIP التحتية",
         "services.telecom.feature4": "جودة صوت عالية الدقة",
+        "services.novamail.title": "نوفا ميل",
+        "services.novamail.description": "خدمة بريد إلكتروني خاصة وموثوقة لمؤسستك — صناديق بريد احترافية، تقويم مشترك، ومراسلات آمنة تحت نطاقك الخاص.",
+        "services.novamail.feature1": "بريد إلكتروني احترافي بنطاقك الخاص",
+        "services.novamail.feature2": "تقويم وجهات اتصال مشتركة",
+        "services.novamail.feature3": "حماية من البريد المزعج والفيروسات",
+        "services.novamail.feature4": "تخزين آمن ونسخ احتياطي",
+        "services.jasminpro.title": "جاسمين برو",
+        "services.jasminpro.description": "بوابة رسائل نصية موثوقة تتيح لمؤسستك إرسال واستقبال الرسائل النصية على نطاق واسع، متصلة مباشرة بشركات الاتصالات حول العالم.",
+        "services.jasminpro.feature1": "رسائل نصية جماعية وفورية",
+        "services.jasminpro.feature2": "اتصال مباشر بشركات الاتصالات",
+        "services.jasminpro.feature3": "تتبع التسليم والتقارير",
+        "services.jasminpro.feature4": "موثوقية بمستوى المؤسسات",
 
         // Tools
         "tools.subtitle": "أداة مجانية",
@@ -242,7 +276,15 @@ const translations: Record<Language, Record<string, string>> = {
         "solutions.stat3.label": "الدعم",
 
         // Trust / stack
-        "trust.label": "المنصات التي تعتمد عليها المؤسسات، نبني عليها",
+        "trust.label": "حلول وخدمات تعتمد عليها المؤسسات كل يوم",
+        "trust.item1": "نوفا ميل",
+        "trust.item2": "جاسمين برو",
+        "trust.item3": "منصات الويب",
+        "trust.item4": "الاستضافة السحابية",
+        "trust.item5": "أنظمة الهاتف للمؤسسات",
+        "trust.item6": "مراكز الاتصال",
+        "trust.item7": "أمان البيانات",
+        "trust.item8": "دعم على مدار الساعة",
 
         // Process
         "process.subtitle": "كيف نعمل",
@@ -287,6 +329,8 @@ const translations: Record<Language, Record<string, string>> = {
         "footer.cloudDevOps": "السحابة و DevOps",
         "footer.telecom": "الاتصالات",
         "footer.security": "حلول الأمان",
+        "footer.novamail": "نوفا ميل",
+        "footer.jasminpro": "جاسمين برو",
         "footer.copyright": "سوبرنوفا سوفت. جميع الحقوق محفوظة.",
         "footer.privacy": "الخصوصية",
         "footer.terms": "الشروط",
@@ -336,6 +380,18 @@ const translations: Record<Language, Record<string, string>> = {
         "services.telecom.feature2": "Çağrı Merkezi Çözümleri",
         "services.telecom.feature3": "VoIP Altyapısı",
         "services.telecom.feature4": "HD Ses Kalitesi",
+        "services.novamail.title": "Nova Mail",
+        "services.novamail.description": "Kurumunuz için özel ve güvenilir bir e-posta hizmeti — kendi alan adınızda profesyonel gelen kutuları, paylaşılan takvimler ve güvenli mesajlaşma.",
+        "services.novamail.feature1": "Kendi Alan Adınızda Kurumsal E-posta",
+        "services.novamail.feature2": "Paylaşılan Takvim ve Kişiler",
+        "services.novamail.feature3": "Spam ve Virüs Koruması",
+        "services.novamail.feature4": "Güvenli Depolama ve Yedekleme",
+        "services.jasminpro.title": "Jasmin Pro",
+        "services.jasminpro.description": "Kurumunuzun büyük ölçekte metin mesajı göndermesini ve almasını sağlayan, dünya çapındaki telekom operatörlerine doğrudan bağlı güvenilir bir SMS ağ geçidi.",
+        "services.jasminpro.feature1": "Toplu ve İşlemsel SMS",
+        "services.jasminpro.feature2": "Doğrudan Operatör Bağlantıları",
+        "services.jasminpro.feature3": "Teslimat Takibi ve Raporlar",
+        "services.jasminpro.feature4": "Kurumsal Düzeyde Güvenilirlik",
 
         // Tools
         "tools.subtitle": "Ücretsiz Araç",
@@ -375,7 +431,15 @@ const translations: Record<Language, Record<string, string>> = {
         "solutions.stat3.label": "Destek",
 
         // Trust / stack
-        "trust.label": "Kurumların güvendiği platformlar üzerine inşa ediyoruz",
+        "trust.label": "Kurumların her gün güvendiği çözümler ve hizmetler",
+        "trust.item1": "Nova Mail",
+        "trust.item2": "Jasmin Pro",
+        "trust.item3": "Web Platformları",
+        "trust.item4": "Bulut Barındırma",
+        "trust.item5": "Kurumsal Telefon Sistemleri",
+        "trust.item6": "Çağrı Merkezleri",
+        "trust.item7": "Veri Güvenliği",
+        "trust.item8": "7/24 Destek",
 
         // Process
         "process.subtitle": "Nasıl Çalışıyoruz",
@@ -420,6 +484,8 @@ const translations: Record<Language, Record<string, string>> = {
         "footer.cloudDevOps": "Bulut & DevOps",
         "footer.telecom": "Telekomünikasyon",
         "footer.security": "Güvenlik Çözümleri",
+        "footer.novamail": "Nova Mail",
+        "footer.jasminpro": "Jasmin Pro",
         "footer.copyright": "Supernova Soft. Tüm hakları saklıdır.",
         "footer.privacy": "Gizlilik",
         "footer.terms": "Şartlar",

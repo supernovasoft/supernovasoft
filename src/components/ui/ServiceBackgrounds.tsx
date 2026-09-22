@@ -102,3 +102,47 @@ export function TelecomMotif({ className }: MotifProps) {
     </svg>
   );
 }
+
+/** Nova Mail: an envelope handed off through a delivery pipeline. */
+export function MailMotif({ className }: MotifProps) {
+  return (
+    <svg className={className} viewBox="0 0 240 140" fill="none" aria-hidden focusable="false">
+      <path d="M30 108 H210" stroke={P} strokeOpacity="0.2" />
+      <path d="M30 108 H210" stroke={A} strokeOpacity="0.5" className="animate-dash" />
+
+      <rect x="72" y="38" width="96" height="62" rx="8" fill={P} fillOpacity="0.06" stroke={P} strokeOpacity="0.4" />
+      <path d="M72 44 L120 78 L168 44" stroke={P} strokeOpacity="0.5" />
+
+      <circle cx="34" cy="108" r="4" fill={P} fillOpacity="0.8" />
+      <circle cx="206" cy="108" r="4" fill={A} fillOpacity="0.8" />
+
+      <circle cx="120" cy="16" r="3" fill={A}>
+        <animate attributeName="cy" values="16;30;16" dur="2.2s" repeatCount="indefinite" />
+      </circle>
+    </svg>
+  );
+}
+
+/** Jasmin Pro: outbound message bubbles ticking off delivery receipts. */
+export function MessageMotif({ className }: MotifProps) {
+  const bubbles = [
+    { x: 46, y: 40, w: 46 },
+    { x: 60, y: 68, w: 58 },
+    { x: 46, y: 96, w: 40 },
+  ];
+  return (
+    <svg className={className} viewBox="0 0 240 140" fill="none" aria-hidden focusable="false">
+      <circle cx="26" cy="70" r="10" stroke={P} strokeOpacity="0.4" fill={P} fillOpacity="0.06" />
+      <circle cx="214" cy="70" r="10" stroke={A} strokeOpacity="0.45" fill={A} fillOpacity="0.06" />
+
+      {bubbles.map((b, i) => (
+        <g key={b.y}>
+          <rect x={b.x} y={b.y - 11} width={b.w} height="22" rx="11" fill={i % 2 ? A : P} fillOpacity="0.12" stroke={i % 2 ? A : P} strokeOpacity="0.4" />
+          <path d={`M${b.x + b.w - 16} ${b.y} l4 4 l8 -8`} stroke={i % 2 ? A : P} strokeOpacity="0.75" strokeWidth="1.5">
+            <animate attributeName="opacity" values="0.2;1;0.2" dur={`${1.8 + i * 0.4}s`} repeatCount="indefinite" />
+          </path>
+        </g>
+      ))}
+    </svg>
+  );
+}

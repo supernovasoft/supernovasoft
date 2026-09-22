@@ -18,6 +18,8 @@ export function Footer() {
     t('footer.webDev'),
     t('footer.cloudDevOps'),
     t('footer.telecom'),
+    t('footer.novamail'),
+    t('footer.jasminpro'),
     t('footer.security'),
   ];
 
