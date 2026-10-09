@@ -8,10 +8,10 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   const quickLinks = [
-    { name: t('nav.services'), href: '#services' },
+    { name: t('nav.services'), href: '/#services' },
     { name: t('nav.blog'), href: 'https://blog.supernovasoft.com', external: true },
     { name: t('nav.tools'), href: 'https://tools.supernovasoft.com', external: true },
-    { name: t('nav.contact'), href: '#contact' },
+    { name: t('nav.contact'), href: '/#contact' },
   ];
 
   const services = [
@@ -107,7 +107,7 @@ export function Footer() {
             <ul className="mt-5 space-y-3">
               {services.map((service) => (
                 <li key={service}>
-                  <a href="#services" className="text-sm text-muted-foreground transition-colors hover:text-primary">
+                  <a href="/#services" className="text-sm text-muted-foreground transition-colors hover:text-primary">
                     {service}
                   </a>
                 </li>
@@ -157,8 +157,12 @@ export function Footer() {
             © {currentYear} {t('footer.copyright')}
           </span>
           <div className="flex items-center gap-6 text-sm">
-            {[t('footer.privacy'), t('footer.terms'), t('footer.cookies')].map((label) => (
-              <a key={label} href="#" className="text-muted-foreground transition-colors hover:text-primary">
+            {[
+              [t('footer.privacy'), '/privacy'],
+              [t('footer.terms'), '#'],
+              [t('footer.cookies'), '#'],
+            ].map(([label, href]) => (
+              <a key={label} href={href} className="text-muted-foreground transition-colors hover:text-primary">
                 {label}
               </a>
             ))}
