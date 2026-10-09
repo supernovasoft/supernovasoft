@@ -329,7 +329,7 @@ const translations: Record<Language, Record<string, string>> = {
         "footer.cloudDevOps": "السحابة و DevOps",
         "footer.telecom": "الاتصالات",
         "footer.security": "حلول الأمان",
-        "footer.novamail": "نوفا ميل",
+        "footer.novamail": "Nova Mail",
         "footer.smppforge": "SMPP Forge",
         "footer.copyright": "سوبرنوفا سوفت. جميع الحقوق محفوظة.",
         "footer.privacy": "الخصوصية",
