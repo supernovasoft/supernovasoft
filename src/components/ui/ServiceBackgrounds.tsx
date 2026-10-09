@@ -123,7 +123,7 @@ export function MailMotif({ className }: MotifProps) {
   );
 }
 
-/** Jasmin Pro: outbound message bubbles ticking off delivery receipts. */
+/** SMPP Forge: outbound message bubbles ticking off delivery receipts. */
 export function MessageMotif({ className }: MotifProps) {
   const bubbles = [
     { x: 46, y: 40, w: 46 },

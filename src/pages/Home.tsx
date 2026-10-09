@@ -1,5 +1,5 @@
 import {
-  ArrowDown, ArrowRight, Check, Cloud, Code2, Github, Globe, Layers, Linkedin,
+  ArrowDown, ArrowRight, ArrowUpRight, Check, Cloud, Code2, Github, Globe, Layers, Linkedin,
   Lock, Mail, MapPin, MessageSquare, Phone as PhoneIcon, Rocket, ShieldCheck, Smartphone, Terminal, Twitter, Zap,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -136,7 +136,7 @@ export function TrustStrip() {
 /* -------------------------------------------------------------- Services */
 
 function ServiceCard({
-  index, icon: Icon, title, description, features, motif, wide = false,
+  index, icon: Icon, title, description, features, motif, wide = false, href,
 }: {
   index: string;
   icon: React.ComponentType<{ className?: string }>;
@@ -145,6 +145,7 @@ function ServiceCard({
   features: string[];
   motif: React.ReactNode;
   wide?: boolean;
+  href?: string;
 }) {
   return (
     <motion.div
@@ -162,6 +163,17 @@ function ServiceCard({
             </div>
 
             <h3 className="mt-6 text-xl font-bold transition-colors group-hover:text-primary">{title}</h3>
+            {href && (
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-1 inline-flex items-center gap-1 font-mono text-xs text-primary hover:underline"
+              >
+                {new URL(href).host}
+                <ArrowUpRight className="h-3 w-3 rtl:-scale-x-100" />
+              </a>
+            )}
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{description}</p>
 
             <ul className="mt-6 space-y-2.5">
@@ -223,10 +235,11 @@ export function Services() {
     {
       index: '05',
       icon: MessageSquare,
-      title: t('services.jasminpro.title'),
-      description: t('services.jasminpro.description'),
-      features: ['feature1', 'feature2', 'feature3', 'feature4'].map((k) => t(`services.jasminpro.${k}`)),
+      title: t('services.smppforge.title'),
+      description: t('services.smppforge.description'),
+      features: ['feature1', 'feature2', 'feature3', 'feature4'].map((k) => t(`services.smppforge.${k}`)),
       motif: <MessageMotif className="h-32 w-full" />,
+      href: 'https://smppforge.com',
     },
   ];
 

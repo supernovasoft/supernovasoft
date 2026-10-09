@@ -15,12 +15,12 @@ export function Footer() {
   ];
 
   const services = [
-    t('footer.webDev'),
-    t('footer.cloudDevOps'),
-    t('footer.telecom'),
-    t('footer.novamail'),
-    t('footer.jasminpro'),
-    t('footer.security'),
+    { name: t('footer.webDev') },
+    { name: t('footer.cloudDevOps') },
+    { name: t('footer.telecom') },
+    { name: t('footer.novamail') },
+    { name: t('footer.smppforge'), href: 'https://smppforge.com' },
+    { name: t('footer.security') },
   ];
 
   const socialLinks = [
@@ -106,9 +106,17 @@ export function Footer() {
             </h5>
             <ul className="mt-5 space-y-3">
               {services.map((service) => (
-                <li key={service}>
-                  <a href="/#services" className="text-sm text-muted-foreground transition-colors hover:text-primary">
-                    {service}
+                <li key={service.name}>
+                  <a
+                    href={service.href ?? '/#services'}
+                    target={service.href ? '_blank' : undefined}
+                    rel={service.href ? 'noopener noreferrer' : undefined}
+                    className="group inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-primary"
+                  >
+                    {service.name}
+                    {service.href && (
+                      <ArrowUpRight className="h-3 w-3 opacity-0 transition-opacity group-hover:opacity-100 rtl:-scale-x-100" />
+                    )}
                   </a>
                 </li>
               ))}
